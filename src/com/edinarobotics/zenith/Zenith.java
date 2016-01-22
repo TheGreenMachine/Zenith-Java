@@ -33,7 +33,7 @@ public class Zenith extends IterativeRobot {
 		drivetrain.setDefaultCommand(new GamepadDriveCommand(gamepad0));
 	}
 
-	public void disabledInit(){
+	public void disabledInit() {
 		stop();
 	}
 
