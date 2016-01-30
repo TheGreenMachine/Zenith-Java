@@ -15,6 +15,7 @@ public class Controls {
 	private static Controls instance;
 
 	public final Gamepad gamepad0;
+	public final Gamepad gamepad1;
 
 	private Controls() {
 		List<GamepadFilter> gamepadFilters = new ArrayList<GamepadFilter>();
@@ -22,6 +23,7 @@ public class Controls {
 		gamepadFilters.add(new PowerFilter(1));
 		GamepadFilterSet driveGamepadFilterSet = new GamepadFilterSet(gamepadFilters);
 		gamepad0 = new FilteredGamepad(0, driveGamepadFilterSet);
+		gamepad1 = new FilteredGamepad(1, driveGamepadFilterSet);
 	}
 
 	/**
