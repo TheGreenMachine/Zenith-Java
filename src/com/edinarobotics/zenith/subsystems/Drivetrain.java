@@ -13,7 +13,9 @@ public class Drivetrain extends Subsystem1816 {
 	private CANTalon topLeft, topRight, middleLeft, middleRight, bottomLeft, bottomRight;
 	private double verticalStrafe, rotation;
 	
-
+	private final double P = 0.8;
+	private final double I = 0.0001;
+	private final double D = 0.0001;
 	private boolean lowGear;
 	private final double LOW_GEAR_SPEED = 0.75;
 
@@ -25,6 +27,11 @@ public class Drivetrain extends Subsystem1816 {
 		this.middleRight = new CANTalon(middleRight);
 		this.bottomLeft = new CANTalon(bottomLeft);
 		this.bottomRight = new CANTalon(bottomRight);
+		
+		this.topLeft.setPID(P, I, D);
+		this.topRight.setPID(P, I, D);
+		this.bottomLeft.setPID(P, I, D);
+		this.bottomRight.setPID(P, I, D);
 		
 		robotDrive = new RobotDrive(this.topLeft, this.bottomLeft, this.topRight, 
 				this.bottomRight);
