@@ -12,6 +12,7 @@ public class Drivetrain extends Subsystem1816 {
 	private RobotDrive robotDrive;
 	private CANTalon topLeft, topRight, middleLeft, middleRight, bottomLeft, bottomRight;
 	private double verticalStrafe, rotation;
+	
 
 	private boolean lowGear;
 	private final double LOW_GEAR_SPEED = 0.75;
@@ -24,7 +25,7 @@ public class Drivetrain extends Subsystem1816 {
 		this.middleRight = new CANTalon(middleRight);
 		this.bottomLeft = new CANTalon(bottomLeft);
 		this.bottomRight = new CANTalon(bottomRight);
-
+		
 		robotDrive = new RobotDrive(this.topLeft, this.bottomLeft, this.topRight, 
 				this.bottomRight);
 		
@@ -37,7 +38,7 @@ public class Drivetrain extends Subsystem1816 {
 
 	@Override
 	public void update() {
-		robotDrive.arcadeDrive(verticalStrafe, rotation);
+		robotDrive.arcadeDrive(-verticalStrafe, -rotation);
 	}
 
 	public void setDefaultCommand(Command command) {
