@@ -21,6 +21,8 @@ public class Drivetrain extends Subsystem1816 {
 	private final double P = 0.8;
 	private final double I = 0.0001;
 	private final double D = 0.0001;
+	
+	private boolean brakeMode = false;
 	private boolean lowGear;
 	private final double LOW_GEAR_SPEED = 0.50;
 
@@ -61,6 +63,9 @@ public class Drivetrain extends Subsystem1816 {
 		
 		leftSide.set(leftVelocity);
 		rightSide.set(rightVelocity);
+		
+		leftSide.enableBrakeMode(brakeMode);
+		rightSide.enableBrakeMode(brakeMode);
 		
 		if (toggled)
 			solenoid.set(Value.kForward);
@@ -109,6 +114,15 @@ public class Drivetrain extends Subsystem1816 {
 	public void setToggled(boolean toggled) {
 		this.toggled = toggled;
 		update();
+	}
+	
+	public void setBrakeMode(boolean brakeMode) {
+		this.brakeMode = brakeMode;
+		update();
+	}
+	
+	public boolean getBrakeMode() {
+		return brakeMode;
 	}
 
 	public boolean getToggled() {

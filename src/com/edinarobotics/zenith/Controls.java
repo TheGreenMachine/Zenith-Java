@@ -12,6 +12,7 @@ import com.edinarobotics.utils.gamepad.gamepadfilters.PowerFilter;
 import com.edinarobotics.zenith.commands.FireShooterCommand;
 import com.edinarobotics.zenith.commands.RunClawToTargetCommand;
 import com.edinarobotics.zenith.commands.RunCollectorCommand;
+import com.edinarobotics.zenith.commands.ToggleBrakeModeCommand;
 import com.edinarobotics.zenith.commands.SetLowGearCommand;
 import com.edinarobotics.zenith.commands.ToggleShiftingCommand;
 import com.edinarobotics.zenith.subsystems.Claw.ClawTarget;
@@ -35,6 +36,8 @@ public class Controls {
 		gamepad0.rightTrigger().whenReleased(new SetLowGearCommand(false));
 
 		gamepad0.rightBumper().whenPressed(new ToggleShiftingCommand());
+		
+		gamepad0.leftBumper().whenPressed(new ToggleBrakeModeCommand());
 		
 		gamepad1.diamondUp().whenPressed(new RunClawToTargetCommand(ClawTarget.TOP));
 		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.SHOOT));

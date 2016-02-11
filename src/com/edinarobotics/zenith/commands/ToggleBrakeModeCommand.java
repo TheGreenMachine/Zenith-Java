@@ -5,24 +5,24 @@ import com.edinarobotics.zenith.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleShiftingCommand extends Command {
+public class ToggleBrakeModeCommand extends Command {
 
-	public Drivetrain drivetrain;
-
-	public ToggleShiftingCommand() {
-		super("toggleshiftingcommand");
+	private Drivetrain drivetrain;
+	
+	public ToggleBrakeModeCommand() {
+		super("togglebrakemodecommand");
 		drivetrain = Components.getInstance().drivetrain;
 		requires(drivetrain);
 	}
-
+	
 	@Override
 	protected void initialize() {
-		drivetrain.setToggled(!drivetrain.getToggled());
+		drivetrain.setBrakeMode(!drivetrain.getBrakeMode());
 	}
 
 	@Override
 	protected void execute() {
-
+		
 	}
 
 	@Override
@@ -32,12 +32,12 @@ public class ToggleShiftingCommand extends Command {
 
 	@Override
 	protected void end() {
-
+		
 	}
 
 	@Override
 	protected void interrupted() {
-
+		
 	}
 
 }
