@@ -1,28 +1,28 @@
 package com.edinarobotics.zenith.commands;
 
 import com.edinarobotics.zenith.Components;
-import com.edinarobotics.zenith.subsystems.Drivetrain;
+import com.edinarobotics.zenith.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleShiftingCommand extends Command {
+public class FireShooterCommand extends Command {
 
-	public Drivetrain drivetrain;
-
-	public ToggleShiftingCommand() {
-		super("setshiftingcommand");
-		drivetrain = Components.getInstance().drivetrain;
-		requires(drivetrain);
+	private Shooter shooter;
+	
+	public FireShooterCommand() {
+		super("fireshootercommand");
+		shooter = Components.getInstance().shooter;
+		requires(shooter);
 	}
-
+	
 	@Override
 	protected void initialize() {
-		drivetrain.setToggled(!drivetrain.getToggled());
+		shooter.toggleShooter();
 	}
 
 	@Override
 	protected void execute() {
-
+		
 	}
 
 	@Override
@@ -32,12 +32,12 @@ public class ToggleShiftingCommand extends Command {
 
 	@Override
 	protected void end() {
-
+		
 	}
 
 	@Override
 	protected void interrupted() {
-
+		
 	}
 
 }

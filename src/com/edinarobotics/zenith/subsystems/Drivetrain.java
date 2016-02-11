@@ -1,25 +1,23 @@
 package com.edinarobotics.zenith.subsystems;
 
+import com.edinarobotics.utils.controllers.SpeedControllerWrapper;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Drivetrain extends Subsystem1816 {
 
-	private RobotDrive robotDrive;
+	private SpeedControllerWrapper leftSide, rightSide;
 	private CANTalon topLeft, topRight, middleLeft, middleRight, bottomLeft, bottomRight;
 	private double verticalStrafe, rotation;
-	
+
 	private DoubleSolenoid solenoid;
 	private boolean toggled = false;
-	
+
 	private final double P = 0.8;
 	private final double I = 0.0001;
 	private final double D = 0.0001;
@@ -27,7 +25,8 @@ public class Drivetrain extends Subsystem1816 {
 	private final double LOW_GEAR_SPEED = 0.50;
 
 	public Drivetrain(int topLeft, int topRight, int middleLeft, int middleRight, 
-			int bottomLeft, int bottomRight, int pcmId, int pcmId2) {
+			int bottomLeft, int bottomRight, int pcmId, int shiftingPcmId, int shiftingPcmId2) {
+		
 		this.topLeft = new CANTalon(topLeft);
 		this.topRight = new CANTalon(topRight);
 		this.middleLeft = new CANTalon(middleLeft);
@@ -35,41 +34,42 @@ public class Drivetrain extends Subsystem1816 {
 		this.bottomLeft = new CANTalon(bottomLeft);
 		this.bottomRight = new CANTalon(bottomRight);
 		
-		this.topLeft.setPID(P, I, D);
-		this.topRight.setPID(P, I, D);
-		this.bottomLeft.setPID(P, I, D);
-		this.bottomRight.setPID(P, I, D);
-		
-		robotDrive = new RobotDrive(this.topLeft, this.bottomLeft, this.topRight, 
-				this.bottomRight);
-		
-		this.middleLeft.changeControlMode(TalonControlMode.Follower);
-		this.middleRight.changeControlMode(TalonControlMode.Follower);
-		
 		this.middleLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		this.middleRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		this.middleLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		
 		this.middleLeft.configEncoderCodesPerRev(256);
 		this.middleRight.configEncoderCodesPerRev(256);
 		
-		this.middleLeft.set(3);
-		this.middleRight.set(7);
+		leftSide = new SpeedControllerWrapper(this.topLeft, this.middleLeft, this.bottomLeft);
+		rightSide = new SpeedControllerWrapper(this.topRight, this.middleRight, this.bottomRight);
 		
-		solenoid = new DoubleSolenoid(10, pcmId, pcmId2);
-		solenoid.set(Value.kForward);
+		leftSide.setPID(P, I, D);
+		rightSide.setPID(P, I, D);
+		
 	}
 
 	@Override
 	public void update() {
-		robotDrive.arcadeDrive(-verticalStrafe, rotation);
+		double leftVelocity = verticalStrafe;
+		double rightVelocity = verticalStrafe;
+		
+		if (rotation > 0) {
+			rightVelocity -= rotation;
+		} else if (rotation < 0) {
+			leftVelocity += rotation;
+		}
+		
+		leftSide.set(leftVelocity);
+		rightSide.set(rightVelocity);
 		
 		if (toggled)
 			solenoid.set(Value.kForward);
 		else
-			solenoid.set(Value.kReverse); 
-		
-		System.out.println("Encoder Velocity: " + middleLeft.getEncVelocity());
-		
+			solenoid.set(Value.kReverse);
+				
+		int leftDifference = middleRight.getEncVelocity() - middleLeft.getEncVelocity();
+		System.out.println("Left Side is traveling: " + leftDifference + " slower.");
+
 		System.out.println("Solenoid value: " + solenoid.get().toString());
 	}
 
@@ -105,14 +105,22 @@ public class Drivetrain extends Subsystem1816 {
 		this.lowGear = lowGear;
 		update();
 	}
-	
+
 	public void setToggled(boolean toggled) {
 		this.toggled = toggled;
 		update();
 	}
-	
+
 	public boolean getToggled() {
 		return toggled;
 	}
 
+	public CANTalon getMiddleLeft() {
+		return middleLeft;
+	}
+
+	public CANTalon getMiddleRight() {
+		return middleRight;
+	}
+	
 }
