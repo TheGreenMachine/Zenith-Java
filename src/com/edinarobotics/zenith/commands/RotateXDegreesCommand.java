@@ -28,7 +28,22 @@ public class RotateXDegreesCommand extends Command {
 
 	@Override
 	protected void execute() {
-		drivetrain.setDrivetrain(0, velocity);
+		if (gyro.getAngle() < degrees) {
+			if ((degrees - gyro.getAngle()) < 5) {
+				drivetrain.setDrivetrain(0, 0.2);
+			} else {
+				drivetrain.setDrivetrain(0, velocity);
+			}
+		} else if (gyro.getAngle() > degrees) {
+			if ((gyro.getAngle() - degrees) < 5) {
+				drivetrain.setDrivetrain(0, -0.2);
+			} else {
+				drivetrain.setDrivetrain(0, -velocity);
+			}
+		} else {
+			drivetrain.setDrivetrain(0, 0);
+		}
+		
 	}
 
 	@Override
