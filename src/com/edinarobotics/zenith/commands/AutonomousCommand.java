@@ -8,7 +8,9 @@ public class AutonomousCommand extends CommandGroup {
 		
 		switch(mode) {
 			
-			case LOW_BAR:
+			case LOW_BAR_WAIT:
+				
+				
 				break;
 		
 		}
@@ -16,7 +18,9 @@ public class AutonomousCommand extends CommandGroup {
 	}
 	
 	public enum AutonomousMode {
-		LOW_BAR;
+		LOW_BAR_WAIT,
+		LOW_BAR_LOW_GOAL,
+		LOW_BAR_HIGH_GOAL;
 	}
 	
 }

@@ -40,10 +40,7 @@ public class RotateXDegreesCommand extends Command {
 			} else {
 				drivetrain.setDrivetrain(0, -velocity);
 			}
-		} else {
-			drivetrain.setDrivetrain(0, 0);
 		}
-		
 	}
 
 	@Override
@@ -53,7 +50,7 @@ public class RotateXDegreesCommand extends Command {
 
 	@Override
 	protected void end() {
-		
+		drivetrain.setDrivetrain(0.0, 0.0);
 	}
 
 	@Override
