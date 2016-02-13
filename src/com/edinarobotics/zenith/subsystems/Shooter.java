@@ -13,7 +13,7 @@ public class Shooter extends Subsystem1816 {
 	
 	public Shooter(int pcmId, int solenoidPCM) {
 		solenoid = new Solenoid(pcmId, solenoidPCM);
-		solenoid.set(extended);
+		solenoid.set(!extended);
 	}
 	
 	@Override

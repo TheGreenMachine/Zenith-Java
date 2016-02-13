@@ -48,6 +48,10 @@ public class Drivetrain extends Subsystem1816 {
 		leftSide.setPID(P, I, D);
 		rightSide.setPID(P, I, D);
 		
+		leftSide.setInverted(true); 
+		
+		solenoid = new DoubleSolenoid(pcmId, shiftingPcmId, shiftingPcmId2);
+		
 	}
 
 	@Override
@@ -71,9 +75,6 @@ public class Drivetrain extends Subsystem1816 {
 			solenoid.set(Value.kForward);
 		else
 			solenoid.set(Value.kReverse);
-				
-		int leftDifference = middleRight.getEncVelocity() - middleLeft.getEncVelocity();
-		System.out.println("Left Side is traveling: " + leftDifference + " slower.");
 
 		System.out.println("Solenoid value: " + solenoid.get().toString());
 	}
