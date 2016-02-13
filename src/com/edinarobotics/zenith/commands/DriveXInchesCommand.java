@@ -8,19 +8,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveXInchesCommand extends Command {
 
 	private Drivetrain drivetrain;
-	private double distance, velocity, ticks;
+	private double velocity, ticks;
 	
 	public DriveXInchesCommand(double distance, double velocity) {
 		super("drivexinchescommand");
-		this.distance = distance;
-		convertInchesToTicks();
+		ticks = (distance * 0.09662876322);
 		this.velocity = velocity;
 		drivetrain = Components.getInstance().drivetrain;
 		requires(drivetrain);
-	}
-	
-	public void convertInchesToTicks() {
-		ticks = (distance * 0.09662876322);
 	}
 	
 	@Override
@@ -30,7 +25,21 @@ public class DriveXInchesCommand extends Command {
 
 	@Override
 	protected void execute() {
-		drivetrain.setDrivetrain(velocity, 0.0);
+		if (ticks > 0) {
+			if (ticks - drivetrain.getMiddleLeft().getEncPosition() < 100) {
+				drivetrain.setDrivetrain(velocity * .33, 0.0);
+			} else {
+				drivetrain.setDrivetrain(velocity, 0.0);
+			}
+		} else if (ticks < 0) {
+			if (drivetrain.getMiddleLeft().getEncPosition() - ticks < 100) {
+				drivetrain.setDrivetrain(velocity * .33, 0.0);
+			} else {
+				drivetrain.setDrivetrain(velocity, 0.0);
+			}
+		} else {
+			drivetrain.setDrivetrain(0.0, 0.0);
+		}
 	}
 
 	@Override
