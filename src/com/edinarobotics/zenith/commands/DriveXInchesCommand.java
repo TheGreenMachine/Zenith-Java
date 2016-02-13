@@ -12,7 +12,7 @@ public class DriveXInchesCommand extends Command {
 	
 	public DriveXInchesCommand(double distance, double velocity) {
 		super("drivexinchescommand");
-		ticks = (distance * 0.09662876322);
+		ticks = (distance * 10.258030311);
 		this.velocity = velocity;
 		drivetrain = Components.getInstance().drivetrain;
 		requires(drivetrain);

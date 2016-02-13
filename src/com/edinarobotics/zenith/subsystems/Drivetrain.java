@@ -37,7 +37,7 @@ public class Drivetrain extends Subsystem1816 {
 		this.bottomRight = new CANTalon(bottomRight);
 		
 		this.middleLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		this.middleLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		this.middleRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		
 		this.middleLeft.configEncoderCodesPerRev(256);
 		this.middleRight.configEncoderCodesPerRev(256);
