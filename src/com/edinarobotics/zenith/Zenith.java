@@ -4,6 +4,7 @@ import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.zenith.commands.GamepadDriveCommand;
 import com.edinarobotics.zenith.commands.RunClawManualCommand;
 import com.edinarobotics.zenith.subsystems.Claw;
+import com.edinarobotics.zenith.subsystems.Collector;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -12,6 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 public class Zenith extends IterativeRobot {
 	private Drivetrain drivetrain;
 	private Claw claw;
+	private Collector collector;
 
 	public void robotInit() {
 		Controls.getInstance();
@@ -19,6 +21,7 @@ public class Zenith extends IterativeRobot {
 
 		drivetrain = Components.getInstance().drivetrain;
 		claw = Components.getInstance().claw;
+		collector = Components.getInstance().collector;
 	}
 
 	public void disabledPeriodic() {
@@ -55,5 +58,6 @@ public class Zenith extends IterativeRobot {
 
 	public void stop() {
 		drivetrain.setDrivetrain(0.0, 0.0);
+		collector.setVelocity(0.0);
 	}
 }
