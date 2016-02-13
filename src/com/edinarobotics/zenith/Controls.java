@@ -43,10 +43,10 @@ public class Controls {
 		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.SHOOT));
 		gamepad1.diamondDown().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM));
 		
-		gamepad1.leftBumper().whenPressed(new RunCollectorCommand(1));
+		gamepad1.leftBumper().whenPressed(new RunCollectorCommand(0.5));
 		gamepad1.leftBumper().whenReleased(new RunCollectorCommand(0));
 		
-		gamepad1.leftTrigger().whenPressed(new RunCollectorCommand(-1));
+		gamepad1.leftTrigger().whenPressed(new RunCollectorCommand(-0.5));
 		gamepad1.leftTrigger().whenReleased(new RunCollectorCommand(0));
 		
 		gamepad1.rightBumper().whenPressed(new FireShooterCommand());
