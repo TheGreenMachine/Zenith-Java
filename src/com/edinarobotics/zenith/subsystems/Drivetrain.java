@@ -1,5 +1,6 @@
 package com.edinarobotics.zenith.subsystems;
 
+import com.edinarobotics.utils.*;
 import com.edinarobotics.utils.controllers.SpeedControllerWrapper;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 
@@ -45,6 +46,7 @@ public class Drivetrain extends Subsystem1816 {
 		leftSide = new SpeedControllerWrapper(this.topLeft, this.middleLeft, this.bottomLeft);
 		rightSide = new SpeedControllerWrapper(this.topRight, this.middleRight, this.bottomRight);
 		
+		
 		leftSide.setPID(P, I, D);
 		rightSide.setPID(P, I, D);
 		
@@ -61,8 +63,10 @@ public class Drivetrain extends Subsystem1816 {
 		
 		if (rotation > 0) {
 			rightVelocity -= rotation;
+			leftVelocity += rotation;
 		} else if (rotation < 0) {
 			leftVelocity += rotation;
+			rightVelocity -= rotation;
 		}
 		
 		leftSide.set(leftVelocity);
