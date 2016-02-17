@@ -4,7 +4,6 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Claw extends Subsystem1816 {
@@ -13,7 +12,6 @@ public class Claw extends Subsystem1816 {
 	private AnalogPotentiometer potentiometer;
 	
 	private double target = 399;
-	private double current;
 	
 	private final double P = 0.8;
 	private final double I = 0.0001;

@@ -4,6 +4,10 @@
 	<classpathentry kind="var" path="wpilib" sourcepath="wpilib.sources"/>
 	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/1816-Utils-Java"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/1816-Utils-Java">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/GreenMachine/Documents/1816/1816-Utils-Java"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
