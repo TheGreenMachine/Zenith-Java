@@ -17,6 +17,8 @@ public class Drivetrain extends Subsystem1816 {
 
 	private DoubleSolenoid solenoid;
 	private boolean toggled = false;
+	
+	private boolean orientationSwapped = false;
 
 	private final double P = 0.8;
 	private final double I = 0.0001;
@@ -61,13 +63,20 @@ public class Drivetrain extends Subsystem1816 {
 		
 		if (rotation > 0) {
 			rightVelocity -= rotation;
+			leftVelocity += rotation;
 		} else if (rotation < 0) {
 			leftVelocity += rotation;
+			rightVelocity -= rotation;
 		}
 		
-		leftSide.set(leftVelocity);
-		rightSide.set(rightVelocity);
-		
+		if (isOrientationSwapped()) {
+			leftSide.set(-leftVelocity);
+			rightSide.set(-rightVelocity);
+		} else {
+			leftSide.set(leftVelocity);
+			rightSide.set(rightVelocity);
+		}
+			
 		leftSide.enableBrakeMode(brakeMode);
 		rightSide.enableBrakeMode(brakeMode);
 		
@@ -120,6 +129,15 @@ public class Drivetrain extends Subsystem1816 {
 	public void setBrakeMode(boolean brakeMode) {
 		this.brakeMode = brakeMode;
 		update();
+	}
+	
+	public void setOrientationSwapped(boolean orientation) {
+		this.orientationSwapped = orientation;
+		update();
+	}
+	
+	public boolean isOrientationSwapped() {
+		return orientationSwapped;
 	}
 	
 	public boolean getBrakeMode() {

@@ -5,27 +5,24 @@ import com.edinarobotics.zenith.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SetLowGearCommand extends Command {
-	
-	private Drivetrain drivetrain;
-	private boolean lowGear;
+public class ToggleDriveOrientationCommand extends Command {
 
-	public SetLowGearCommand(boolean lowGear) {
-		super("setlowgearcommand");
+	private Drivetrain drivetrain;
+	
+	public ToggleDriveOrientationCommand() {
+		super("toggledriveorientationcommand");
 		drivetrain = Components.getInstance().drivetrain;
-		this.lowGear = lowGear;
 		requires(drivetrain);
 	}
-
+	
 	@Override
 	protected void initialize() {
-		drivetrain.setLowGear(lowGear);
-
+		drivetrain.setOrientationSwapped(!drivetrain.isOrientationSwapped());
 	}
 
 	@Override
 	protected void execute() {
-
+		
 	}
 
 	@Override
@@ -35,12 +32,12 @@ public class SetLowGearCommand extends Command {
 
 	@Override
 	protected void end() {
-
+		
 	}
 
 	@Override
 	protected void interrupted() {
-
+		
 	}
 
 }

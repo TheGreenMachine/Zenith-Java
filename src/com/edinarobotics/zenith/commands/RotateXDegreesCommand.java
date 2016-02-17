@@ -30,13 +30,13 @@ public class RotateXDegreesCommand extends Command {
 	protected void execute() {
 		if (gyro.getAngle() < degrees) {
 			if ((degrees - gyro.getAngle()) < 5) {
-				drivetrain.setDrivetrain(0, 0.2);
+				drivetrain.setDrivetrain(0, 0.1);
 			} else {
 				drivetrain.setDrivetrain(0, velocity);
 			}
 		} else if (gyro.getAngle() > degrees) {
 			if ((gyro.getAngle() - degrees) < 5) {
-				drivetrain.setDrivetrain(0, -0.2);
+				drivetrain.setDrivetrain(0, -0.1);
 			} else {
 				drivetrain.setDrivetrain(0, -velocity);
 			}
@@ -45,7 +45,7 @@ public class RotateXDegreesCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return gyro.getAngle() == (gyro.getAngle() + degrees);
+		return ((int) gyro.getAngle()) == (((int) gyro.getAngle()) + degrees);
 	}
 
 	@Override
