@@ -1,2 +1,3 @@
 lib1816.properties
-bin/
+/bin
+/build
