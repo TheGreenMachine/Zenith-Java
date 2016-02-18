@@ -11,7 +11,7 @@ public class Claw extends Subsystem1816 {
 	private CANTalon talon;
 	private AnalogPotentiometer potentiometer;
 	
-	private double target = 399;
+	private double target = 0.0;
 	
 	private final double P = 0.8;
 	private final double I = 0.0001;
@@ -30,7 +30,14 @@ public class Claw extends Subsystem1816 {
 	
 	@Override
 	public void update() {
-		talon.set(target);
+		if (getCurrentPosition() < (target + 400)) {
+			talon.set(0.25);
+		} else if (getCurrentPosition() > (target + 400)) {
+			talon.set(-0.25);
+		} else {
+			talon.set(0.0);
+		}
+		
 		System.out.println(target);
 		System.out.println("Potentiometer value: "+ potentiometer.get()*1000);
 	}
@@ -38,8 +45,8 @@ public class Claw extends Subsystem1816 {
 	public enum ClawTarget {
 		
 		BOTTOM(0),
-		SHOOT(1),	
-		TOP(2);
+		SHOOT(21),	
+		TOP(30);
 		
 		private double target;
 		
@@ -59,7 +66,7 @@ public class Claw extends Subsystem1816 {
 	}
 	
 	public void setTarget(double target) {
-		this.target = -target*.5;
+		this.target += -target*.5;
 		update();
 	}
 	
@@ -68,6 +75,10 @@ public class Claw extends Subsystem1816 {
 			super.getDefaultCommand().cancel();
 		}
 		super.setDefaultCommand(command);
+	}
+	
+	public double getCurrentPosition() {
+		return potentiometer.get();
 	}
 
 }
