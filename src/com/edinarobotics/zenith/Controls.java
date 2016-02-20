@@ -20,6 +20,7 @@ import com.edinarobotics.zenith.commands.SetLowGearCommand;
 import com.edinarobotics.zenith.commands.ToggleBrakeModeCommand;
 import com.edinarobotics.zenith.commands.ToggleDriveOrientationCommand;
 import com.edinarobotics.zenith.commands.ToggleShiftingCommand;
+import com.edinarobotics.zenith.commands.VisionAutoAimManualCommand;
 import com.edinarobotics.zenith.subsystems.Claw.ClawTarget;
 
 public class Controls {
@@ -60,6 +61,8 @@ public class Controls {
 		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.SHOOT));
 		gamepad1.diamondDown().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM));
 		gamepad1.diamondLeft().whenPressed(new RunClawToTargetCommand(ClawTarget.BACKWARDS));
+		
+		gamepad1.leftBumper().whileHeld(new VisionAutoAimManualCommand());
 		
 		gamepad1.dPadDown().whenPressed(new RunCollectorCommand(0.5));
 		gamepad1.dPadDown().whenReleased(new RunCollectorCommand(0));
