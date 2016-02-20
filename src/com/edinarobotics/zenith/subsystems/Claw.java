@@ -69,6 +69,10 @@ public class Claw extends Subsystem1816 {
 		
 	}
 	
+	public double getTarget() {
+		return target;
+	}
+	
 	public void setTarget(ClawTarget a) {
 		preset = true;
 		target = a.target;

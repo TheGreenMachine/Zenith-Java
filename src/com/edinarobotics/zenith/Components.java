@@ -4,6 +4,7 @@ import com.edinarobotics.zenith.subsystems.Claw;
 import com.edinarobotics.zenith.subsystems.Collector;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
 import com.edinarobotics.zenith.subsystems.Shooter;
+import com.edinarobotics.zenith.subsystems.Vision;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Compressor;
@@ -18,6 +19,7 @@ public class Components {
 	public Shooter shooter;
 	public Collector collector;
 	public Gyro gyro;
+	public Vision vision;
 
 	// CAN Constants
 		// Drivetrain Constants
@@ -75,6 +77,8 @@ public class Components {
 		compressor.start();	
 		
 		gyro = new ADXRS450_Gyro();
+		
+		vision = new Vision();
 	}
 
 	/**
