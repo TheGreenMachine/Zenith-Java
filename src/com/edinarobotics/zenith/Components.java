@@ -13,13 +13,14 @@ public class Components {
 
 	private static Components instance;
 	public Drivetrain drivetrain;
-	public Compressor compressor;
 	public Claw claw;
 	public Shooter shooter;
 	public Collector collector;
+	
+	public Compressor compressor;
 	public Gyro gyro;
 
-	// CAN Constants
+	//CAN Constants
 		// Drivetrain Constants
 		private static final int TOP_LEFT_CANTALON = 3;
 		private static final int TOP_RIGHT_CANTALON = 7;
@@ -38,8 +39,9 @@ public class Components {
 		//End Collector Constants
 	// End CAN Constants
 		
-	//Potentiometer Constants
+	//Analog Constants
 	private static final int POTENTIOMETER = 0;
+	private static final int PRESSURE_SENSOR = 1;
 	//End Potentiometer Constants
 	
 	//Pneumatic Constants	
@@ -52,14 +54,11 @@ public class Components {
 		private static final int SHOOTER_PCM_1 = 2;
 		private static final int SHOOTER_PCM_2 = 3;
 		private static final int SHOOTER_PCM_3 = 4;
-		
-		private static final int PRESSURE_SENSOR = 1;
 		//End Shooter Constants
 		
 		//Pneumatic Control Module
 		private static final int PCM_NODE_ID = 10;
 		//End Pneumatic Control Module
-		
 	//End Pneumatic Constants
 		
 	

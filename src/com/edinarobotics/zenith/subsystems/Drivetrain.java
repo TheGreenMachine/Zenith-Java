@@ -1,6 +1,5 @@
 package com.edinarobotics.zenith.subsystems;
 
-import com.edinarobotics.utils.*;
 import com.edinarobotics.utils.controllers.SpeedControllerWrapper;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 
@@ -81,6 +80,9 @@ public class Drivetrain extends Subsystem1816 {
 			solenoid.set(Value.kForward);
 		else
 			solenoid.set(Value.kReverse);
+		
+		System.out.println("Drivetrain - Left Side Velocity: " + leftVelocity);
+		System.out.println("Drivetrain - Right Side Velocity: " + rightVelocity);
 
 	}
 

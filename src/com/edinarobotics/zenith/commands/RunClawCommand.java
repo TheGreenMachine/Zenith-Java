@@ -19,7 +19,6 @@ public class RunClawCommand extends Command {
 	
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 		if(on) {
 			claw.setTarget(-0.5);
 		}
@@ -27,7 +26,6 @@ public class RunClawCommand extends Command {
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
 		
 	}
 

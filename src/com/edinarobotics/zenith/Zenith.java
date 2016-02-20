@@ -8,6 +8,7 @@ import com.edinarobotics.zenith.subsystems.Collector;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
 public class Zenith extends IterativeRobot {
@@ -46,6 +47,7 @@ public class Zenith extends IterativeRobot {
 
 	public void disabledInit() {
 		stop();
+		Components.getInstance().shooter.solenoid.set(Value.kOff);
 	}
 
 	public void teleopPeriodic() {

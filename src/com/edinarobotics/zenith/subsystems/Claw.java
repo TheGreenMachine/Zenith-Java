@@ -49,8 +49,12 @@ public class Claw extends Subsystem1816 {
 			talon.set(target);
 		}
 		
-		System.out.println(target);
+		System.out.println("Current state: (preset or not)" + preset);
 		System.out.println("Potentiometer value: "+ potentiometer.get()*1000);
+		System.out.println("Current reading: " + currentReading);
+		System.out.println("Current target: " + targetReading);
+		System.out.println("Current target value: " + target);
+		System.out.println("Current motor value: " + talon.get());
 	}
 	
 	public enum ClawTarget {
@@ -59,7 +63,7 @@ public class Claw extends Subsystem1816 {
 		SHOOT(22),	
 		TOP(26),
 		UP_AGAINST_TOWER(24.5),
-		BACKWARDS(34);
+		BACKWARDS(33);
 		
 		public double target;
 		
@@ -76,7 +80,7 @@ public class Claw extends Subsystem1816 {
 	}
 	
 	public void setTarget(double target) {
-		this.target = -target*.5;
+		this.target = -target*.75;
 		update();
 	}
 	
@@ -88,7 +92,7 @@ public class Claw extends Subsystem1816 {
 	}
 	
 	public double getCurrentPosition() {
-		return potentiometer.get();
+		return potentiometer.get() * 1000;
 	}
 
 }

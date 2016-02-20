@@ -56,7 +56,6 @@ public class Controls {
 		gamepad1.rightJoystickButton().whenPressed(new RunClawCommand(true));
 		gamepad1.rightJoystickButton().whenReleased(new RunClawCommand(false));
 		
-		
 		gamepad1.diamondUp().whenPressed(new RunClawToTargetCommand(ClawTarget.TOP));
 		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.SHOOT));
 		gamepad1.diamondDown().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM));

@@ -23,7 +23,7 @@ public class RunClawManualCommand extends Command{
 		if (!claw.preset)
 			claw.setTarget(gamepad.getRightJoystick().getY());		
 	}
-
+ 
 	@Override
 	protected void execute() {
 		
