@@ -16,7 +16,7 @@ public class Vision extends Subsystem1816 {
 	private double[] targetCords;
 	private boolean canShoot = false;
 	private final double SHOT_X = 120;
-	private final double SHOT_Y = 300;
+	private final double SHOT_Y = 190;
 	private final double X_TOLERANCE = 10;
 	private final double Y_TOLERANCE = 10;
 	private final double X_SPEED_COEFFICIENT = 0.5;
