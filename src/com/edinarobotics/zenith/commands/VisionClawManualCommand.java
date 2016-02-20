@@ -1,6 +1,7 @@
 package com.edinarobotics.zenith.commands;
 
 
+
 import com.edinarobotics.zenith.Components;
 import com.edinarobotics.zenith.subsystems.Claw;
 import com.edinarobotics.zenith.subsystems.Vision;
@@ -27,7 +28,8 @@ public class VisionClawManualCommand extends Command {
 
 	@Override
 	protected void execute() {
-		claw.setTarget(claw.getTarget() + vision.calculateYTarget());
+		if(vision.canShoot())
+			claw.setTarget(vision.calculateYSpeed());
 	}
 
 	@Override

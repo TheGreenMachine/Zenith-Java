@@ -1,6 +1,7 @@
 package com.edinarobotics.zenith.commands;
 
 
+
 import com.edinarobotics.zenith.Components;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
 import com.edinarobotics.zenith.subsystems.Vision;
@@ -27,7 +28,10 @@ public class VisionDrivetrainManualCommand extends Command {
 
 	@Override
 	protected void execute() {
-		drivetrain.setRotation(vision.calculateXSpeed());
+		if(vision.canShoot()) {
+			drivetrain.setLowGear(true);
+			drivetrain.setRotation(vision.calculateXSpeed());
+		}
 	}
 
 	@Override
