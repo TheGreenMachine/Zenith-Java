@@ -23,13 +23,13 @@ public class VisionClawManualCommand extends Command {
 	
 	@Override
 	protected void initialize() {
-		
+		if(vision.canShoot())
+			claw.setTarget(vision.calculateYSpeed());
 	}
 
 	@Override
 	protected void execute() {
-		if(vision.canShoot())
-			claw.setTarget(vision.calculateYSpeed());
+
 	}
 
 	@Override

@@ -23,15 +23,15 @@ public class VisionDrivetrainManualCommand extends Command {
 	
 	@Override
 	protected void initialize() {
-		
-	}
-
-	@Override
-	protected void execute() {
 		if(vision.canShoot()) {
 			drivetrain.setLowGear(true);
 			drivetrain.setRotation(vision.calculateXSpeed());
 		}
+	}
+
+	@Override
+	protected void execute() {
+
 	}
 
 	@Override

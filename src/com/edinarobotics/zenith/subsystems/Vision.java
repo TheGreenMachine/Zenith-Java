@@ -86,8 +86,8 @@ public class Vision extends Subsystem1816 {
 		double[] vector = new double[2];
 		update();
 		
-		vector[0] = -1.0 * (targetCords[0] - SHOT_X);
-		vector[1] = -1.0 * (targetCords[1] - SHOT_Y);
+		vector[0] = targetCords[0] - SHOT_X;
+		vector[1] = targetCords[1] - SHOT_Y;
 		
 		if(Math.abs(vector[0]) < X_TOLERANCE)
 			vector[0] = 0.0;

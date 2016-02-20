@@ -31,7 +31,7 @@ public class VisionUpdateCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	@Override
