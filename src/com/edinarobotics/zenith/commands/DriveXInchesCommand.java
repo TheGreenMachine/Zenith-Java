@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveXInchesCommand extends Command {
 
 	private Drivetrain drivetrain;
-	private double velocity, ticks;
+	private double velocity, endingValue, change;
 	
 	public DriveXInchesCommand(double distance, double velocity) {
 		super("drivexinchescommand");
-		ticks = (distance * 10.258030311);
 		this.velocity = velocity;
 		drivetrain = Components.getInstance().drivetrain;
+		endingValue = drivetrain.getMiddleLeft().getEncPosition() + (distance * 10.258030311);
+		change = (distance * 10.258030311);
 		requires(drivetrain);
 	}
 	
@@ -25,30 +26,28 @@ public class DriveXInchesCommand extends Command {
 
 	@Override 
 	protected void execute() {
-		if (ticks > 0) {
-			if (ticks - drivetrain.getMiddleLeft().getEncPosition() < 100) {
+		if (change > 0) {
+			
+			if ((endingValue - drivetrain.getMiddleLeft().getEncPosition()) < 100)
 				drivetrain.setDrivetrain(velocity * .33, 0.0);
-			} else {
+			else
 				drivetrain.setDrivetrain(velocity, 0.0);
-			}
-		} else if (ticks < 0) {
-			if (drivetrain.getMiddleLeft().getEncPosition() - ticks < 100) {
-				drivetrain.setDrivetrain(velocity * .33, 0.0);
-			} else {
-				drivetrain.setDrivetrain(velocity, 0.0);
-			}
+		
+		} else if (change < 0) {
+			
+			if ((drivetrain.getMiddleLeft().getEncPosition() - endingValue) < 100)
+				drivetrain.setDrivetrain(-velocity * .33, 0.0);
+			else
+				drivetrain.setDrivetrain(-velocity, 0.0);
+			
+		} else {
+			drivetrain.setDrivetrain(0.0, 0.0);
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (ticks > 0) {
-			return (drivetrain.getMiddleLeft().getEncPosition() > 
-			(drivetrain.getMiddleLeft().getEncPosition() + ticks));
-		}
-		
-		return (drivetrain.getMiddleLeft().getEncPosition() < 
-		(drivetrain.getMiddleLeft().getEncPosition() + ticks));
+		return drivetrain.getMiddleLeft().getEncPosition() == endingValue;
 	}
 
 	@Override

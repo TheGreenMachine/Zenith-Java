@@ -51,6 +51,9 @@ public class Components {
 		//Shooter Constants
 		private static final int SHOOTER_PCM_1 = 2;
 		private static final int SHOOTER_PCM_2 = 3;
+		private static final int SHOOTER_PCM_3 = 4;
+		
+		private static final int PRESSURE_SENSOR = 1;
 		//End Shooter Constants
 		
 		//Pneumatic Control Module
@@ -65,9 +68,9 @@ public class Components {
 				MIDDLE_LEFT_CANTALON, MIDDLE_RIGHT_CANTALON, BOTTOM_LEFT_CANTALON, 
 				BOTTOM_RIGHT_CANTALON, PCM_NODE_ID, SHIFTING_PCM_ID_1, SHIFTING_PCM_ID_2);
 		claw = new Claw(CLAW_CANTALON, POTENTIOMETER);
-		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2);
+		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2, SHOOTER_PCM_3, PRESSURE_SENSOR);
 		collector = new Collector(COLLECTOR_CANTALON);
-		
+
 		compressor = new Compressor(PCM_NODE_ID);
 		compressor.start();	
 		

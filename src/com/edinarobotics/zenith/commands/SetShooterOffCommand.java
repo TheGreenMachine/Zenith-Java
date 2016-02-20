@@ -3,23 +3,24 @@ package com.edinarobotics.zenith.commands;
 import com.edinarobotics.zenith.Components;
 import com.edinarobotics.zenith.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FireShooterCommand extends Command {
+public class SetShooterOffCommand extends Command {
 
 	private Shooter shooter;
-	private boolean lowPower = false;
 	
-	public FireShooterCommand(boolean lowPower) {
-		super("fireshootercommand");
+	public SetShooterOffCommand() {
+		super("setshooteroffcommand");
 		shooter = Components.getInstance().shooter;
-		this.lowPower = lowPower;
 		requires(shooter);
 	}
 	
 	@Override
 	protected void initialize() {
-		shooter.toggleShooter(lowPower);
+		if (!shooter.solenoid.get().equals(Value.kOff)) {
+			shooter.solenoid.set(Value.kOff);
+		}
 	}
 
 	@Override

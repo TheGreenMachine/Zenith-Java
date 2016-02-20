@@ -4,6 +4,8 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Claw extends Subsystem1816 {
@@ -12,6 +14,7 @@ public class Claw extends Subsystem1816 {
 	private AnalogPotentiometer potentiometer;
 	
 	private double target = 0.0;
+	public boolean preset = false;
 	
 	private final double P = 0.8;
 	private final double I = 0.0001;
@@ -30,12 +33,20 @@ public class Claw extends Subsystem1816 {
 	
 	@Override
 	public void update() {
-		if (getCurrentPosition() < (target + 400)) {
-			talon.set(0.25);
-		} else if (getCurrentPosition() > (target + 400)) {
-			talon.set(-0.25);
+		int currentReading = (int) (potentiometer.get() * 1000);
+		int targetReading = (int) (target + 400);
+		
+		if (preset) {
+			if (currentReading > (targetReading + 2)) {
+				talon.set(0.5);
+			} else if ((targetReading - 2) > currentReading) {
+				talon.set(-0.5);
+			} else {
+				talon.set(0.0);
+				preset = false;
+			}
 		} else {
-			talon.set(0.0);
+			talon.set(target);
 		}
 		
 		System.out.println(target);
@@ -45,28 +56,27 @@ public class Claw extends Subsystem1816 {
 	public enum ClawTarget {
 		
 		BOTTOM(0),
-		SHOOT(21),	
-		TOP(30);
+		SHOOT(22),	
+		TOP(26),
+		UP_AGAINST_TOWER(24.5),
+		BACKWARDS(34);
 		
-		private double target;
+		public double target;
 		
 		ClawTarget(double target) {
 			this.target = target;
 		}
 		
-		public double getTarget(){
-			return target;
-		}
-		
 	}
 	
-	public void setTarget(ClawTarget target) {
-		this.target = target.getTarget();
+	public void setTarget(ClawTarget a) {
+		preset = true;
+		target = a.target;
 		update();
 	}
 	
 	public void setTarget(double target) {
-		this.target += -target*.5;
+		this.target = -target*.5;
 		update();
 	}
 	

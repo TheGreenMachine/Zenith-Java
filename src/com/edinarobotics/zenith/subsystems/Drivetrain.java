@@ -71,13 +71,8 @@ public class Drivetrain extends Subsystem1816 {
 			rightVelocity -= rotation;
 		}
 		
-		if (isOrientationSwapped()) {
-			leftSide.set(-leftVelocity);
-			rightSide.set(-rightVelocity);
-		} else {
-			leftSide.set(leftVelocity);
-			rightSide.set(rightVelocity);
-		}
+		rightSide.set(rightVelocity);
+		leftSide.set(leftVelocity);
 			
 		leftSide.enableBrakeMode(brakeMode);
 		rightSide.enableBrakeMode(brakeMode);
@@ -87,7 +82,6 @@ public class Drivetrain extends Subsystem1816 {
 		else
 			solenoid.set(Value.kReverse);
 
-		System.out.println("Solenoid value: " + solenoid.get().toString());
 	}
 
 	public void setDefaultCommand(Command command) {
@@ -104,7 +98,7 @@ public class Drivetrain extends Subsystem1816 {
 		}
 
 		this.verticalStrafe = verticalStrafe;
-		this.rotation = rotation;
+		this.rotation = rotation * .9;
 		update();
 	}
 

@@ -8,16 +8,23 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ToggleBrakeModeCommand extends Command {
 
 	private Drivetrain drivetrain;
+	private boolean toggle;
 	
-	public ToggleBrakeModeCommand() {
+	public ToggleBrakeModeCommand(boolean toggle) {
 		super("togglebrakemodecommand");
 		drivetrain = Components.getInstance().drivetrain;
+		this.toggle = toggle;
 		requires(drivetrain);
 	}
 	
 	@Override
 	protected void initialize() {
-		drivetrain.setBrakeMode(!drivetrain.getBrakeMode());
+		if(toggle) {
+			drivetrain.setBrakeMode(true);
+		}
+		else {
+			drivetrain.setBrakeMode(false);
+		}
 	}
 
 	@Override
@@ -27,6 +34,7 @@ public class ToggleBrakeModeCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
+		
 		return true;
 	}
 
