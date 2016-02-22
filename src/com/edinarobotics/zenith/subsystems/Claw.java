@@ -15,6 +15,7 @@ public class Claw extends Subsystem1816 {
 	
 	private double target = 0.0;
 	public boolean preset = false;
+	private boolean atTarget = false;
 	
 	private final double P = 0.8;
 	private final double I = 0.0001;
@@ -28,7 +29,6 @@ public class Claw extends Subsystem1816 {
 		this.talon.setI(I);
 		this.talon.setD(D);		
 		
-		target = this.talon.get();
 	}
 	
 	@Override
@@ -37,13 +37,17 @@ public class Claw extends Subsystem1816 {
 		int targetReading = (int) (target + 400);
 		
 		if (preset) {
-			if (currentReading > (targetReading + 2)) {
-				talon.set(0.5);
-			} else if ((targetReading - 2) > currentReading) {
-				talon.set(-0.5);
-			} else {
-				talon.set(0.0);
-				preset = false;
+			while (!atTarget) {
+				if (currentReading > (targetReading + 2)) {
+					talon.set(0.5);
+				} else if ((targetReading -2) > currentReading) {
+					talon.set(-0.5);
+				} else {
+					talon.set(0.0);
+					target = 0.0;
+					preset = false;
+					atTarget = true;
+				}
 			}
 		} else {
 			talon.set(target);
@@ -65,10 +69,14 @@ public class Claw extends Subsystem1816 {
 		UP_AGAINST_TOWER(24.5),
 		BACKWARDS(33);
 		
-		public double target;
+		private double target;
 		
 		ClawTarget(double target) {
 			this.target = target;
+		}
+		
+		public double getTarget() {
+			return target;
 		}
 		
 	}
@@ -77,9 +85,14 @@ public class Claw extends Subsystem1816 {
 		return target;
 	}
 	
-	public void setTarget(ClawTarget a) {
+	public void resetTarget() {
+		target = getCurrentPosition();
+		update();
+	}
+	
+	public void setTarget(ClawTarget level) {
 		preset = true;
-		target = a.target;
+		target = level.getTarget();
 		update();
 	}
 	
@@ -97,6 +110,10 @@ public class Claw extends Subsystem1816 {
 	
 	public double getCurrentPosition() {
 		return potentiometer.get() * 1000;
+	}
+	
+	public CANTalon getTalon() {
+		return talon;
 	}
 
 }

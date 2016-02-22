@@ -46,7 +46,7 @@ public class Shooter extends Subsystem1816 {
 				} else {
 					solenoid.set(Value.kOff);
 					
-					Timer.delay(2.0);
+					Timer.delay(0.5);
 					
 					solenoid.set(Value.kReverse);
 					

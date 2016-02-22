@@ -4,12 +4,14 @@ import com.edinarobotics.zenith.Components;
 import com.edinarobotics.zenith.subsystems.Claw;
 import com.edinarobotics.zenith.subsystems.Claw.ClawTarget;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RunClawToTargetCommand extends Command {
 
 	private Claw claw;
 	private ClawTarget clawTarget;
+	private CANTalon talon;
 
 	public RunClawToTargetCommand(ClawTarget clawTarget) {
 		super("runclawtotargetcommand");
@@ -25,7 +27,7 @@ public class RunClawToTargetCommand extends Command {
 
 	@Override
 	protected void execute() {
-
+		
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class RunClawToTargetCommand extends Command {
 
 	@Override
 	protected void interrupted() {
-
+		talon.set(0.0);
 	}
 
 }
