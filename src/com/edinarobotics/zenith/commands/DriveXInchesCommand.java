@@ -29,14 +29,14 @@ public class DriveXInchesCommand extends Command {
 		if (change > 0) {
 			
 			if ((endingValue - drivetrain.getMiddleLeft().getEncPosition()) < 100)
-				drivetrain.setDrivetrain(velocity * .33, 0.0);
+				drivetrain.setDrivetrain(velocity * .25, 0.0);
 			else
 				drivetrain.setDrivetrain(velocity, 0.0);
 		
 		} else if (change < 0) {
 			
 			if ((drivetrain.getMiddleLeft().getEncPosition() - endingValue) < 100)
-				drivetrain.setDrivetrain(-velocity * .33, 0.0);
+				drivetrain.setDrivetrain(-velocity * .25, 0.0);
 			else
 				drivetrain.setDrivetrain(-velocity, 0.0);
 			
@@ -47,7 +47,7 @@ public class DriveXInchesCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return drivetrain.getMiddleLeft().getEncPosition() == endingValue;
+		return Math.abs(drivetrain.getMiddleLeft().getEncPosition() - endingValue) < 10;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class DriveXInchesCommand extends Command {
 
 	@Override
 	protected void interrupted() {
-		
+		end();
 	}
 
 }

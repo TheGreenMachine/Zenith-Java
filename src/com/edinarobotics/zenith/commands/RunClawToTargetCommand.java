@@ -12,6 +12,8 @@ public class RunClawToTargetCommand extends Command {
 	private Claw claw;
 	private ClawTarget clawTarget;
 	private CANTalon talon;
+	private double targetPosition;
+	private double currentPosition;
 
 	public RunClawToTargetCommand(ClawTarget clawTarget) {
 		super("runclawtotargetcommand");
@@ -22,27 +24,41 @@ public class RunClawToTargetCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		claw.setTarget(clawTarget);
+		targetPosition = clawTarget.getTarget();
+		talon = claw.getTalon();
+		claw.preset = true;
 	}
 
 	@Override
 	protected void execute() {
-		
+		currentPosition = claw.getCurrentPosition();
+
+		if ((currentPosition - 2) > targetPosition) {
+			talon.set(0.5);
+		} else if ((targetPosition - 2) > currentPosition) {
+			talon.set(-0.5);
+		} else {
+			talon.set(0.0);
+		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		if (!((currentPosition - 2) > targetPosition) && !((targetPosition - 2) > currentPosition))
+			return true;
+
+		return false;
 	}
 
 	@Override
 	protected void end() {
-
+		claw.preset = false;
+		talon.set(0.0);
 	}
 
 	@Override
 	protected void interrupted() {
-		talon.set(0.0);
+		end();
 	}
 
 }

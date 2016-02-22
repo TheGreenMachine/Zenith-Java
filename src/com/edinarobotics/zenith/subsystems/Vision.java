@@ -1,11 +1,7 @@
 package com.edinarobotics.zenith.subsystems;
 
-
-
 import com.edinarobotics.utils.subsystems.Subsystem1816;
-import com.edinarobotics.zenith.Components;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 

@@ -17,12 +17,12 @@ public class Components {
 	public Claw claw;
 	public Shooter shooter;
 	public Collector collector;
-	
+
 	public Compressor compressor;
 	public Gyro gyro;
 	public Vision vision;
 
-	//CAN Constants
+	// CAN Constants
 		// Drivetrain Constants
 		private static final int TOP_LEFT_CANTALON = 3;
 		private static final int TOP_RIGHT_CANTALON = 7;
@@ -31,52 +31,50 @@ public class Components {
 		private static final int BOTTOM_LEFT_CANTALON = 1;
 		private static final int BOTTOM_RIGHT_CANTALON = 5;
 		// End Drivetrain Constants
-		
-		//Claw Constants
+	
+		// Claw Constants
 		private static final int CLAW_CANTALON = 4;
-		//End Claw Constants
-		
-		//Collector Constants
+		// End Claw Constants
+	
+		// Collector Constants
 		private static final int COLLECTOR_CANTALON = 8;
-		//End Collector Constants
+		// End Collector Constants
 	// End CAN Constants
-		
-	//Analog Constants
+
+	// Analog Constants
 	private static final int POTENTIOMETER = 0;
 	private static final int PRESSURE_SENSOR = 1;
-	//End Potentiometer Constants
-	
-	//Pneumatic Constants	
-		//Drivetrain Constants
+	// End Potentiometer Constants
+
+	// Pneumatic Constants
+		// Drivetrain Constants
 		private static final int SHIFTING_PCM_ID_1 = 0;
 		private static final int SHIFTING_PCM_ID_2 = 1;
-		//End Drivetrain Constants
-		
-		//Shooter Constants
+		// End Drivetrain Constants
+
+		// Shooter Constants
 		private static final int SHOOTER_PCM_1 = 2;
 		private static final int SHOOTER_PCM_2 = 3;
 		private static final int SHOOTER_PCM_3 = 4;
-		//End Shooter Constants
-		
-		//Pneumatic Control Module
+		// End Shooter Constants
+
+		// Pneumatic Control Module
 		private static final int PCM_NODE_ID = 10;
-		//End Pneumatic Control Module
-	//End Pneumatic Constants
-		
-	
+		// End Pneumatic Control Module
+	// End Pneumatic Constants
+
 	private Components() {
-		drivetrain = new Drivetrain(TOP_LEFT_CANTALON, TOP_RIGHT_CANTALON, 
-				MIDDLE_LEFT_CANTALON, MIDDLE_RIGHT_CANTALON, BOTTOM_LEFT_CANTALON, 
-				BOTTOM_RIGHT_CANTALON, PCM_NODE_ID, SHIFTING_PCM_ID_1, SHIFTING_PCM_ID_2);
+		drivetrain = new Drivetrain(TOP_LEFT_CANTALON, TOP_RIGHT_CANTALON, MIDDLE_LEFT_CANTALON, MIDDLE_RIGHT_CANTALON,
+				BOTTOM_LEFT_CANTALON, BOTTOM_RIGHT_CANTALON, PCM_NODE_ID, SHIFTING_PCM_ID_1, SHIFTING_PCM_ID_2);
 		claw = new Claw(CLAW_CANTALON, POTENTIOMETER);
 		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2, SHOOTER_PCM_3, PRESSURE_SENSOR);
 		collector = new Collector(COLLECTOR_CANTALON);
 
 		compressor = new Compressor(PCM_NODE_ID);
-		compressor.start();	
-		
+		compressor.start();
+
 		gyro = new ADXRS450_Gyro();
-		
+
 		vision = new Vision();
 	}
 

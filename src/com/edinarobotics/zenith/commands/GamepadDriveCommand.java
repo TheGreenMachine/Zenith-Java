@@ -42,12 +42,12 @@ public class GamepadDriveCommand extends Command {
 
 	@Override
 	protected void end() {
-
+		drivetrain.setDrivetrain(0.0, 0.0);
 	}
 
 	@Override
 	protected void interrupted() {
-
+		end();	
 	}
 
 }
