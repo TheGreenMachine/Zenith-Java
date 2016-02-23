@@ -12,26 +12,17 @@ public class Claw extends Subsystem1816 {
 	private AnalogPotentiometer potentiometer;
 
 	private double target = 0.0;
+	private double velocity = 0.0;
 	public boolean preset = false;
-
-	private final double P = 0.8;
-	private final double I = 0.0001;
-	private final double D = 0.0001;
 
 	public Claw(int talon, int potentiometer) {
 		this.talon = new CANTalon(talon);
 		this.potentiometer = new AnalogPotentiometer(potentiometer);
-
-		this.talon.setP(P);
-		this.talon.setI(I);
-		this.talon.setD(D);
-
 	}
 
 	@Override
 	public void update() {
-		if (!preset)
-			talon.set(target);
+		talon.set(velocity);
 
 		System.out.println("Current state: (preset or not)" + preset);
 		System.out.println("Current reading: " + getCurrentPosition());
@@ -43,7 +34,7 @@ public class Claw extends Subsystem1816 {
 
 		BOTTOM(-1), 
 		HIGH_POWER(20), 
-		LOW_POWER(24),
+		LOW_POWER(24), 
 		TOP(26);
 
 		private double target;
@@ -53,9 +44,37 @@ public class Claw extends Subsystem1816 {
 		}
 
 		public double getTarget() {
-			return target;
+			return target + 400;
 		}
 
+	}
+
+	public boolean isAbove() {
+		return (getCurrentPosition() - 1) > getTarget();
+	}
+
+	public boolean isBelow() {
+		return (getTarget() - 1) > getCurrentPosition();
+	}
+
+	public boolean isAtTarget() {
+		return Math.abs(getCurrentPosition() - getTarget()) < 1;
+	}
+
+	public void runUp() {
+		velocity = -0.5;
+		update();
+	}
+
+	public void runDown() {
+		velocity = 0.5;
+		update();
+	}
+
+	public void endTarget() {
+		velocity = 0.0;
+		preset = false;
+		update();
 	}
 
 	public double getTarget() {
@@ -73,8 +92,13 @@ public class Claw extends Subsystem1816 {
 		update();
 	}
 
-	public void setTarget(double target) {
-		this.target = -target * .75;
+	public void setTarget(double velocity) {
+		this.velocity = -velocity * .75;
+		update();
+	}
+
+	public void setPreset(boolean preset) {
+		this.preset = preset;
 		update();
 	}
 
@@ -87,10 +111,6 @@ public class Claw extends Subsystem1816 {
 
 	public int getCurrentPosition() {
 		return (int) (potentiometer.get() * 1000);
-	}
-
-	public CANTalon getTalon() {
-		return talon;
 	}
 
 }

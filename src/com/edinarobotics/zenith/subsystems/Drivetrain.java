@@ -17,51 +17,50 @@ public class Drivetrain extends Subsystem1816 {
 
 	private DoubleSolenoid solenoid;
 	private boolean toggled = false;
-	
+
 	private boolean orientationSwapped = false;
 
 	private final double P = 0.8;
 	private final double I = 0.0001;
 	private final double D = 0.0001;
-	
+
 	private boolean brakeMode = false;
 	private boolean lowGear;
 	private final double LOW_GEAR_SPEED = 0.50;
 
-	public Drivetrain(int topLeft, int topRight, int middleLeft, int middleRight, 
-			int bottomLeft, int bottomRight, int pcmId, int shiftingPcmId, int shiftingPcmId2) {
-		
+	public Drivetrain(int topLeft, int topRight, int middleLeft, int middleRight, int bottomLeft, int bottomRight,
+			int pcmId, int shiftingPcmId, int shiftingPcmId2) {
+
 		this.topLeft = new CANTalon(topLeft);
 		this.topRight = new CANTalon(topRight);
 		this.middleLeft = new CANTalon(middleLeft);
 		this.middleRight = new CANTalon(middleRight);
 		this.bottomLeft = new CANTalon(bottomLeft);
 		this.bottomRight = new CANTalon(bottomRight);
-		
+
 		this.middleLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		this.middleRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		
+
 		this.middleLeft.configEncoderCodesPerRev(256);
 		this.middleRight.configEncoderCodesPerRev(256);
-		
+
 		leftSide = new SpeedControllerWrapper(this.topLeft, this.middleLeft, this.bottomLeft);
 		rightSide = new SpeedControllerWrapper(this.topRight, this.middleRight, this.bottomRight);
-		
-		
+
 		leftSide.setPID(P, I, D);
 		rightSide.setPID(P, I, D);
-		
-		leftSide.setInverted(true); 
-		
+
+		leftSide.setInverted(true);
+
 		solenoid = new DoubleSolenoid(pcmId, shiftingPcmId, shiftingPcmId2);
-		
+
 	}
 
 	@Override
 	public void update() {
 		double leftVelocity = verticalStrafe;
 		double rightVelocity = verticalStrafe;
-		
+
 		if (rotation > 0) {
 			rightVelocity -= rotation;
 			leftVelocity += rotation;
@@ -69,18 +68,18 @@ public class Drivetrain extends Subsystem1816 {
 			leftVelocity += rotation;
 			rightVelocity -= rotation;
 		}
-		
+
 		rightSide.set(rightVelocity);
 		leftSide.set(leftVelocity);
-			
+
 		leftSide.enableBrakeMode(brakeMode);
 		rightSide.enableBrakeMode(brakeMode);
-		
+
 		if (toggled)
 			solenoid.set(Value.kForward);
 		else
 			solenoid.set(Value.kReverse);
-		
+
 		System.out.println("Drivetrain - Left Side Velocity: " + leftVelocity);
 		System.out.println("Drivetrain - Right Side Velocity: " + rightVelocity);
 
@@ -123,21 +122,21 @@ public class Drivetrain extends Subsystem1816 {
 		this.toggled = toggled;
 		update();
 	}
-	
+
 	public void setBrakeMode(boolean brakeMode) {
 		this.brakeMode = brakeMode;
 		update();
 	}
-	
+
 	public void setOrientationSwapped(boolean orientation) {
 		this.orientationSwapped = orientation;
 		update();
 	}
-	
+
 	public boolean isOrientationSwapped() {
 		return orientationSwapped;
 	}
-	
+
 	public boolean getBrakeMode() {
 		return brakeMode;
 	}
@@ -153,5 +152,5 @@ public class Drivetrain extends Subsystem1816 {
 	public CANTalon getMiddleRight() {
 		return middleRight;
 	}
-	
+
 }
