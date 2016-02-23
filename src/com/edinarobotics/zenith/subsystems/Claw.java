@@ -41,7 +41,7 @@ public class Claw extends Subsystem1816 {
 
 	public enum ClawTarget {
 
-		BOTTOM(0), 
+		BOTTOM(-1), 
 		HIGH_POWER(20), 
 		LOW_POWER(24),
 		TOP(26);

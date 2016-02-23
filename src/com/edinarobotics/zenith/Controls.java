@@ -38,11 +38,11 @@ public class Controls {
 		gamepad0.leftBumper().whenPressed(new SetLowGearCommand(true));
 		gamepad0.leftBumper().whenReleased(new SetLowGearCommand(false));
 
-		gamepad0.rightBumper().whenPressed(new SetLowGearCommand(true));
-		gamepad0.rightBumper().whenReleased(new SetLowGearCommand(false));
+		gamepad0.leftTrigger().whenPressed(new SetLowGearCommand(true));
+		gamepad0.leftTrigger().whenReleased(new SetLowGearCommand(false));
 
-		gamepad0.leftTrigger().whenPressed(new ToggleBrakeModeCommand(true));
-		gamepad0.leftTrigger().whenReleased(new ToggleBrakeModeCommand(false));
+		gamepad0.rightBumper().whenPressed(new ToggleBrakeModeCommand(true));
+		gamepad0.rightBumper().whenReleased(new ToggleBrakeModeCommand(false));
 
 		gamepad0.rightTrigger().whenPressed(new ToggleShiftingCommand());
 		gamepad0.rightTrigger().whenReleased(new ToggleShiftingCommand());
