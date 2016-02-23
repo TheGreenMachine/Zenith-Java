@@ -24,7 +24,7 @@ public class RunClawToTargetCommand extends Command {
 
 	@Override
 	protected void initialize() {
-		targetPosition = clawTarget.getTarget();
+		targetPosition = clawTarget.getTarget() + 400;
 		talon = claw.getTalon();
 		claw.preset = true;
 	}
@@ -32,22 +32,26 @@ public class RunClawToTargetCommand extends Command {
 	@Override
 	protected void execute() {
 		currentPosition = claw.getCurrentPosition();
-
-		if ((currentPosition - 2) > targetPosition) {
+ 
+		if ((currentPosition - 1) > targetPosition) {
+			System.out.println("going down: curr=" + currentPosition + "; target=" + targetPosition);
 			talon.set(0.5);
-		} else if ((targetPosition - 2) > currentPosition) {
-			talon.set(-0.5);
+		} else if ((targetPosition - 1) > currentPosition) {
+			talon.set(-0.5); 
+			System.out.println("going up: curr=" + currentPosition + "; target=" + targetPosition);
 		} else {
 			talon.set(0.0);
-		}
+		} 
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (!((currentPosition - 2) > targetPosition) && !((targetPosition - 2) > currentPosition))
-			return true;
-
-		return false;
+//		if (!((currentPosition - 1) > targetPosition) && !((targetPosition - 1) > currentPosition))
+//			return true;
+//
+//		return false;
+		
+		return Math.abs(currentPosition - targetPosition) < 1;
 	}
 
 	@Override

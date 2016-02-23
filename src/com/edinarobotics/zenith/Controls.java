@@ -9,13 +9,16 @@ import com.edinarobotics.utils.gamepad.gamepadfilters.DeadzoneFilter;
 import com.edinarobotics.utils.gamepad.gamepadfilters.GamepadFilter;
 import com.edinarobotics.utils.gamepad.gamepadfilters.GamepadFilterSet;
 import com.edinarobotics.utils.gamepad.gamepadfilters.PowerFilter;
+import com.edinarobotics.zenith.commands.DriveXInchesCommand;
 import com.edinarobotics.zenith.commands.FireShooterCommand;
 import com.edinarobotics.zenith.commands.PullInSolenoidCommand;
+import com.edinarobotics.zenith.commands.RunClawToTargetCommand;
 import com.edinarobotics.zenith.commands.RunCollectorCommand;
 import com.edinarobotics.zenith.commands.SetLowGearCommand;
 import com.edinarobotics.zenith.commands.ToggleBrakeModeCommand;
 import com.edinarobotics.zenith.commands.ToggleDriveOrientationCommand;
 import com.edinarobotics.zenith.commands.ToggleShiftingCommand;
+import com.edinarobotics.zenith.subsystems.Claw.ClawTarget;
 
 public class Controls {
 
@@ -49,20 +52,12 @@ public class Controls {
 		// gamepad0.dPadLeft().whenPressed(new RotateXDegreesCommand(-30, .33));
 		// gamepad0.dPadRight().whenPressed(new RotateXDegreesCommand(30, .33));
 
-		// gamepad0.dPadUp().whenPressed(new DriveXInchesCommand(12, .33));
+		gamepad0.dPadUp().whenPressed(new DriveXInchesCommand(12, .33));
 
-		// gamepad1.rightJoystickButton().whenPressed(new RunClawCommand(true));
-		// gamepad1.rightJoystickButton().whenReleased(new
-		// RunClawCommand(false));
-
-		// gamepad1.diamondUp().whenPressed(new
-		// RunClawToTargetCommand(ClawTarget.TOP));
-		// gamepad1.diamondRight().whenPressed(new
-		// RunClawToTargetCommand(ClawTarget.SHOOT));
-		// gamepad1.diamondDown().whenPressed(new
-		// RunClawToTargetCommand(ClawTarget.BOTTOM));
-		// gamepad1.diamondLeft().whenPressed(new
-		// RunClawToTargetCommand(ClawTarget.BACKWARDS));
+		gamepad1.diamondUp().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM));
+		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.HIGH_POWER));
+		gamepad1.diamondDown().whenPressed(new RunClawToTargetCommand(ClawTarget.LOW_POWER));
+		gamepad1.diamondLeft().whenPressed(new RunClawToTargetCommand(ClawTarget.TOP));
 
 		// gamepad1.leftBumper().whileHeld(new VisionAutoAimManualCommand());
 

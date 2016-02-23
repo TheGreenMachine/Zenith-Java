@@ -47,7 +47,7 @@ public class DriveXInchesCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Math.abs(drivetrain.getMiddleLeft().getEncPosition() - endingValue) < 10;
+		return Math.abs(drivetrain.getMiddleLeft().getEncPosition() - endingValue) < 5;
 	}
 
 	@Override
