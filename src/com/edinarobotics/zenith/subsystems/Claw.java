@@ -119,6 +119,10 @@ public class Claw extends Subsystem1816 {
 		return (int) (potentiometer.get() * 1000);
 	}
 	
+	public Solenoid getBrakeSolenoid() {
+		return brakeSolenoid;
+	}
+	
 	public void toggleBrakeSolenoid() {
 		brakeSolenoid.set(!brakeSolenoid.get());
 	}

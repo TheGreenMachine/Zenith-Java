@@ -21,11 +21,11 @@ public class AutonomousCommand extends CommandGroup {
 				
 				addSequential(new RotateXDegreesCommand(180, .5));
 				
-				addSequential(new RotateXDegreesCommand(16.8465, .5));
+				addSequential(new RotateXDegreesCommand(73.1535, .5));
 				
 				addSequential(new DriveXInchesCommand(153.5914, .5));
 				
-				addSequential(new RotateXDegreesCommand(-16.8465, .5));
+				addSequential(new RotateXDegreesCommand(-73.1535, .5));
 				
 				addSequential(new DriveXInchesCommand(48.3419, .5));
 				
@@ -60,11 +60,11 @@ public class AutonomousCommand extends CommandGroup {
 				
 				addSequential(new RotateXDegreesCommand(180, .5));
 				
-				addSequential(new RotateXDegreesCommand(16.8465, .5));
+				addSequential(new RotateXDegreesCommand(73.1535, .5));
 				
 				addSequential(new DriveXInchesCommand(153.5914, .5));
 				
-				addSequential(new RotateXDegreesCommand(-16.8465, .5));
+				addSequential(new RotateXDegreesCommand(-73.1535, .5));
 				
 				addSequential(new DriveXInchesCommand(48.3419, .5));
 				
@@ -99,11 +99,11 @@ public class AutonomousCommand extends CommandGroup {
 				
 				addSequential(new RotateXDegreesCommand(180, .5));
 				
-				addSequential(new RotateXDegreesCommand(16.8465, .5));
+				addSequential(new RotateXDegreesCommand(73.1535, .5));
 				
 				addSequential(new DriveXInchesCommand(153.5914, .5));
 				
-				addSequential(new RotateXDegreesCommand(-16.8465, .5));
+				addSequential(new RotateXDegreesCommand(-73.1535, .5));
 				
 				addSequential(new DriveXInchesCommand(48.3419, .5));
 				

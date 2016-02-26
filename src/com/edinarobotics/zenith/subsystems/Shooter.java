@@ -79,5 +79,9 @@ public class Shooter extends Subsystem1816 {
 		}
 		solenoid.set(Value.kForward);
 	}
+	
+	public double getPressure() {
+		return pressureSensor.getPressure();
+	}
 
 }
