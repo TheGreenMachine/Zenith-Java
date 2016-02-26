@@ -4,20 +4,26 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Claw extends Subsystem1816 {
 
 	private CANTalon talon;
 	private AnalogPotentiometer potentiometer;
+	
+	private Solenoid brakeSolenoid;
 
 	private double target = 0.0;
 	private double velocity = 0.0;
 	public boolean preset = false;
 
-	public Claw(int talon, int potentiometer) {
+	public Claw(int talon, int potentiometer, int pcmId, int solenoidPcmId) {
 		this.talon = new CANTalon(talon);
 		this.potentiometer = new AnalogPotentiometer(potentiometer);
+		
+		brakeSolenoid = new Solenoid(pcmId, solenoidPcmId);
+		brakeSolenoid.set(false);
 	}
 
 	@Override
@@ -111,6 +117,10 @@ public class Claw extends Subsystem1816 {
 
 	public int getCurrentPosition() {
 		return (int) (potentiometer.get() * 1000);
+	}
+	
+	public void toggleBrakeSolenoid() {
+		brakeSolenoid.set(!brakeSolenoid.get());
 	}
 
 }

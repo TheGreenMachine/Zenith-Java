@@ -1,5 +1,6 @@
 package com.edinarobotics.zenith.subsystems;
 
+import com.edinarobotics.utils.sensors.PressureSensor;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -12,7 +13,7 @@ public class Shooter extends Subsystem1816 {
 
 	public DoubleSolenoid solenoid;
 	public Solenoid lowPowerSolenoid;
-	public AnalogPotentiometer pressureSensor;
+	public PressureSensor pressureSensor;
 	public Claw claw;
 
 	private boolean toggle = false;
@@ -22,13 +23,13 @@ public class Shooter extends Subsystem1816 {
 			int solenoidPCM3, int pressureSensorChannel) {
 		solenoid = new DoubleSolenoid(pcmId, solenoidPCM1, solenoidPCM2);
 		lowPowerSolenoid = new Solenoid(pcmId, solenoidPCM3);
-		pressureSensor = new AnalogPotentiometer(pressureSensorChannel);
+		pressureSensor = new PressureSensor(pressureSensorChannel);
 		solenoid.set(Value.kOff);
 	}
 
 	@Override
 	public void update() {
-		if (pressureSensor.get() > .39) {
+		if (pressureSensor.getPressure() > 51) {
 			if (toggle) {
 				if (lowPower) {
 					lowPowerSolenoid.set(true);
@@ -63,7 +64,7 @@ public class Shooter extends Subsystem1816 {
 			}
 		}
 
-		System.out.println("Pressure switch value: " + pressureSensor.get());
+		System.out.println("Pressure switch value: " + pressureSensor.getPressure());
 	}
 
 	public void toggleShooter(boolean lowPower) {

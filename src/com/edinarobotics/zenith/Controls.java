@@ -12,6 +12,7 @@ import com.edinarobotics.utils.gamepad.gamepadfilters.PowerFilter;
 import com.edinarobotics.zenith.commands.DriveXInchesCommand;
 import com.edinarobotics.zenith.commands.FireShooterCommand;
 import com.edinarobotics.zenith.commands.PullInSolenoidCommand;
+import com.edinarobotics.zenith.commands.ReorientateBoulderCommand;
 import com.edinarobotics.zenith.commands.RunClawToTargetCommand;
 import com.edinarobotics.zenith.commands.RunCollectorCommand;
 import com.edinarobotics.zenith.commands.SetLowGearCommand;
@@ -71,6 +72,11 @@ public class Controls {
 		gamepad1.leftTrigger().whenPressed(new FireShooterCommand(true));
 
 		gamepad1.middleLeft().whenPressed(new PullInSolenoidCommand());
+		
+		gamepad1.middleRight().whenPressed(new RunCollectorCommand(0.2));
+		gamepad1.middleRight().whenReleased(new RunCollectorCommand(0));
+		
+		gamepad1.leftJoystickButton().whenPressed(new ReorientateBoulderCommand());
 	}
 
 	/**

@@ -53,7 +53,6 @@ public class Drivetrain extends Subsystem1816 {
 		leftSide.setInverted(true);
 
 		solenoid = new DoubleSolenoid(pcmId, shiftingPcmId, shiftingPcmId2);
-
 	}
 
 	@Override

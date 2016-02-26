@@ -62,6 +62,10 @@ public class Components {
 		private static final int SHOOTER_PCM_3 = 4;
 		// End Shooter Constants
 
+		// Brake Constants
+		private static final int BRAKE_PCM_ID = 5;
+		// End Brake Constants
+		
 		// Pneumatic Control Module
 		private static final int PCM_NODE_ID = 10;
 		// End Pneumatic Control Module
@@ -70,7 +74,7 @@ public class Components {
 	private Components() {
 		drivetrain = new Drivetrain(TOP_LEFT_CANTALON, TOP_RIGHT_CANTALON, MIDDLE_LEFT_CANTALON, MIDDLE_RIGHT_CANTALON,
 				BOTTOM_LEFT_CANTALON, BOTTOM_RIGHT_CANTALON, PCM_NODE_ID, SHIFTING_PCM_ID_1, SHIFTING_PCM_ID_2);
-		claw = new Claw(CLAW_CANTALON, POTENTIOMETER);
+		claw = new Claw(CLAW_CANTALON, POTENTIOMETER, PCM_NODE_ID, BRAKE_PCM_ID);
 		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2, SHOOTER_PCM_3, PRESSURE_SENSOR);
 		collector = new Collector(COLLECTOR_CANTALON);
 
