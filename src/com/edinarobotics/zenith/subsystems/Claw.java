@@ -32,12 +32,13 @@ public class Claw extends Subsystem1816 {
 
 		System.out.println("Current state: (preset or not)" + preset);
 		System.out.println("Current reading: " + getCurrentPosition());
-		System.out.println("Current target: " + (target + 400));
+		System.out.println("Current target: " + target);
 		System.out.println("Current motor value: " + talon.get());
+		
+		
 	}
 
 	public enum ClawTarget {
-
 		BOTTOM(-1), 
 		HIGH_POWER(20), 
 		LOW_POWER(24), 
@@ -99,8 +100,10 @@ public class Claw extends Subsystem1816 {
 	}
 
 	public void setTarget(double velocity) {
-		this.velocity = -velocity * .75;
-		update();
+		if (preset = false) {
+			this.velocity = -velocity * .75;
+			update();
+		}
 	}
 
 	public void setPreset(boolean preset) {
