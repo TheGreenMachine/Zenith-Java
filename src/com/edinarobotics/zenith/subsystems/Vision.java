@@ -209,35 +209,40 @@ public class Vision extends Subsystem1816 {
 		return thetaBearing;
 	}
 	
-	private double[] calculateXYDistance() {
-		double[] vector = new double[2];
+	private double calculateXDistance() {		
+		double x = targetCords[0] - SHOT_X;
+		
+		if(Math.abs(x) < X_TOLERANCE)
+			x = 0.0;
+		
+		return x;
+	}
+	
+	private double calculateYDistance() {
 		calculateY(getNearestGoal());
 		
-		vector[0] = targetCords[0] - SHOT_X;
-		vector[1] = targetCords[1] - shotY;
+		double y = targetCords[1] - shotY;
 		
-		if(Math.abs(vector[0]) < X_TOLERANCE)
-			vector[0] = 0.0;
-		if(Math.abs(vector[1]) < Y_TOLERANCE)
-			vector[1] = 0.0;
+		if(Math.abs(y) < Y_TOLERANCE)
+			y = 0.0;
 		
-		return vector;
+		return y;
 	}
 	
 	private double[] calculateDirection() {
 		update();
 		double[] direction = new double[2];
 		if(canShoot) {
-			if(calculateXYDistance()[0] > 0.0)
+			if(calculateXDistance() > 0.0)
 				direction[0] = 1;
-			else if(calculateXYDistance()[0] < 0.0)
+			else if(calculateXDistance() < 0.0)
 				direction[0] = -1;
 			else
 				direction[0] = 0;
 			
-			if(calculateXYDistance()[1] > 0.0)
+			if(calculateYDistance() > 0.0)
 				direction[1] = 1;
-			else if(calculateXYDistance()[1] < 0.0)
+			else if(calculateYDistance() < 0.0)
 				direction[1] = -1;
 			else
 				direction[1] = 0;
@@ -253,7 +258,7 @@ public class Vision extends Subsystem1816 {
 	public double calculateXSpeed() {
 		double speed = 0;
 		if(canShoot) {
-			speed = (calculateXYDistance()[0] / 380) * X_SPEED_COEFFICIENT;
+			speed = (calculateXDistance() / 380) * X_SPEED_COEFFICIENT;
 		}
 		else {
 			speed = (getGoalAngle(getNearestGoal()) / 180) * X_SPEED_COEFFICIENT;
@@ -270,7 +275,7 @@ public class Vision extends Subsystem1816 {
 	public double calculateXSpeed(double angle) {
 		double speed = 0;
 		if(canShoot) {
-			speed = (calculateXYDistance()[0] / 380) * X_SPEED_COEFFICIENT;
+			speed = (calculateXDistance() / 380) * X_SPEED_COEFFICIENT;
 		}
 		else {
 			speed = (angle / 180) * X_SPEED_COEFFICIENT;
@@ -285,7 +290,7 @@ public class Vision extends Subsystem1816 {
 	}
 	
 	public double calculateYSpeed() {
-		double speed = (calculateXYDistance()[0] / 240) * Y_SPEED_COEFFICIENT;
+		double speed = (calculateYDistance() / 240) * Y_SPEED_COEFFICIENT;
 		if(Math.abs(speed) > Y_MIN_SPEED) {
 			if(speed > 0)
 				speed = Y_MIN_SPEED;
