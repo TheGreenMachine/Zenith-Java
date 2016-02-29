@@ -267,6 +267,23 @@ public class Vision extends Subsystem1816 {
 		return speed;
 	}
 	
+	public double calculateXSpeed(double angle) {
+		double speed = 0;
+		if(canShoot) {
+			speed = (calculateXYDistance()[0] / 380) * X_SPEED_COEFFICIENT;
+		}
+		else {
+			speed = (angle / 180) * X_SPEED_COEFFICIENT;
+		}
+		if(Math.abs(speed) > X_MIN_SPEED) {
+			if(speed > 0)
+				speed = X_MIN_SPEED;
+			else
+				speed = -X_MIN_SPEED;
+		}
+		return speed;
+	}
+	
 	public double calculateYSpeed() {
 		double speed = (calculateXYDistance()[0] / 240) * Y_SPEED_COEFFICIENT;
 		if(Math.abs(speed) > Y_MIN_SPEED) {
