@@ -73,6 +73,9 @@ public class Vision extends Subsystem1816 {
 		for(double y : yValues)
 			System.out.print(y);
 		System.out.println();
+		
+		System.out.println("X: " + absolutePosition[0]);
+		System.out.println("Y: " + absolutePosition[1]);
 	}
 	
 	public void setDefaultCommand(Command command) {
