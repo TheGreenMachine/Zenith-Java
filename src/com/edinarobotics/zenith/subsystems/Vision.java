@@ -31,6 +31,7 @@ public class Vision extends Subsystem1816 {
 	private double[] relativeVelocity;
 	private double[] relativePosition;
 	private double rotation;
+	private double[] acceleration;
 	
 	public Vision() {
 		table = NetworkTable.getTable("GRIP/myContourReport");
@@ -39,15 +40,14 @@ public class Vision extends Subsystem1816 {
 		absolutePosition = new double[2];
 		relativeVelocity = new double[2];
 		relativePosition = new double[2];
+		acceleration = new double[2];
 	}
 	
 	@Override
 	public void update() {
 		
-		rotation = getRelativeAngle();
-		
-		relativeVelocity[0] += (accelerometer.getX() * 32.174 * 12) * 0.02;
-		relativeVelocity[1] += (accelerometer.getY() * 32.174 * 12) * 0.02;
+		relativeVelocity[0] += (acceleration[0] * 32.174 * 12) * 0.02;
+		relativeVelocity[1] += (acceleration[1] * 32.174 * 12) * 0.02;
 		relativePosition[0] += relativeVelocity[0] * 0.02;
 		relativePosition[1] += relativeVelocity[1] * 0.02;
 		absolutePosition[0] += (relativePosition[0] * Math.cos(rotation)) - (relativePosition[1] * Math.sin(rotation));
@@ -116,7 +116,15 @@ public class Vision extends Subsystem1816 {
 	}
 	
 	public double getRelativeAngle() {
-		return gyro.getAngle() % 360;
+		return rotation;
+	}
+	
+	public void setAngle(double angle) {
+		rotation = angle % 360;
+	}
+	
+	public void setAcceleration(double[] acceleration) {
+		this.acceleration = acceleration;
 	}
 	
 	private double getZ(GoalPosition goal) {
