@@ -8,47 +8,51 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveXInchesCommand extends Command {
 
 	private Drivetrain drivetrain;
-	private double velocity, ticks;
+	private double velocity;
+	private int initialPosition, target, ticks;
 	
-	public DriveXInchesCommand(double distance, double velocity) {
+	public DriveXInchesCommand(double inches, double velocity) {
 		super("drivexinchescommand");
-		ticks = (distance * 10.258030311);
 		this.velocity = velocity;
 		drivetrain = Components.getInstance().drivetrain;
+		ticks = (int)(inches * 389);
 		requires(drivetrain);
 	}
 	
 	@Override
 	protected void initialize() {
-		
+		initialPosition = drivetrain.getMiddleRight().getEncPosition();
+		target = ticks + initialPosition;
 	}
 
 	@Override 
 	protected void execute() {
-		if (ticks > 0) {
-			if (ticks - drivetrain.getMiddleLeft().getEncPosition() < 100) {
+		if (target > initialPosition) {
+			if (target - drivetrain.getMiddleRight().getEncPosition() < 3000 && target - drivetrain.getMiddleRight().getEncPosition() > 1000)
 				drivetrain.setDrivetrain(velocity * .33, 0.0);
-			} else {
+			else if(target - drivetrain.getMiddleRight().getEncPosition() <= 1000)
+				drivetrain.setDrivetrain(0.0, 0.0);
+			else
 				drivetrain.setDrivetrain(velocity, 0.0);
-			}
-		} else if (ticks < 0) {
-			if (drivetrain.getMiddleLeft().getEncPosition() - ticks < 100) {
-				drivetrain.setDrivetrain(velocity * .33, 0.0);
+			
+		} else if (target < initialPosition) {
+			if (target - drivetrain.getMiddleRight().getEncPosition() > -3000 && target - drivetrain.getMiddleRight().getEncPosition() < -1000) {
+				drivetrain.setDrivetrain(-velocity * .33, 0.0);
+			} else if(target - drivetrain.getMiddleRight().getEncPosition() >= -1000){
+				drivetrain.setDrivetrain(0.0, 0.0);
 			} else {
-				drivetrain.setDrivetrain(velocity, 0.0);
+				drivetrain.setDrivetrain(-velocity, 0.0);
 			}
 		}
+		
+		System.out.println("Encoder: " + drivetrain.getMiddleRight().getEncPosition());
+		System.out.println("Target: " + target);
+		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		if (ticks > 0) {
-			return (drivetrain.getMiddleLeft().getEncPosition() > 
-			(drivetrain.getMiddleLeft().getEncPosition() + ticks));
-		}
-		
-		return (drivetrain.getMiddleLeft().getEncPosition() < 
-		(drivetrain.getMiddleLeft().getEncPosition() + ticks));
+		return (Math.abs(drivetrain.getMiddleRight().getEncPosition() - target) < 1000);
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class DriveXInchesCommand extends Command {
 
 	@Override
 	protected void interrupted() {
-		
+		end();
 	}
 
 }

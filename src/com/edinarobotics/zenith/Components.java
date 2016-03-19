@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class Components {
 
-	private static Components instance;
+	private static Components instance = null;
 	public Drivetrain drivetrain;
-	public Compressor compressor;
 	public Claw claw;
 	public Shooter shooter;
 	public Collector collector;
 	public Gyro gyro;
+	public Compressor compressor;
 
 	// CAN Constants
 		// Drivetrain Constants
@@ -36,11 +36,11 @@ public class Components {
 		//Collector Constants
 		private static final int COLLECTOR_CANTALON = 8;
 		//End Collector Constants
-	// End CAN Constants
+	// End CAN Constants //188
 		
-	//Potentiometer Constants
+	//Analog Constants
 	private static final int POTENTIOMETER = 0;
-	//End Potentiometer Constants
+	//End Analog Constants
 	
 	//Pneumatic Constants	
 		//Drivetrain Constants
@@ -51,6 +51,8 @@ public class Components {
 		//Shooter Constants
 		private static final int SHOOTER_PCM_1 = 2;
 		private static final int SHOOTER_PCM_2 = 3;
+		private static final int LOW_POWER_PCM = 4;
+		private static final int BRAKE_PCM = 5;
 		//End Shooter Constants
 		
 		//Pneumatic Control Module
@@ -64,8 +66,8 @@ public class Components {
 		drivetrain = new Drivetrain(TOP_LEFT_CANTALON, TOP_RIGHT_CANTALON, 
 				MIDDLE_LEFT_CANTALON, MIDDLE_RIGHT_CANTALON, BOTTOM_LEFT_CANTALON, 
 				BOTTOM_RIGHT_CANTALON, PCM_NODE_ID, SHIFTING_PCM_ID_1, SHIFTING_PCM_ID_2);
-		claw = new Claw(CLAW_CANTALON, POTENTIOMETER);
-		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2);
+		claw = new Claw(CLAW_CANTALON, POTENTIOMETER, PCM_NODE_ID, BRAKE_PCM);
+		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2, LOW_POWER_PCM);
 		collector = new Collector(COLLECTOR_CANTALON);
 		
 		compressor = new Compressor(PCM_NODE_ID);

@@ -9,9 +9,10 @@ import com.edinarobotics.utils.gamepad.gamepadfilters.DeadzoneFilter;
 import com.edinarobotics.utils.gamepad.gamepadfilters.GamepadFilter;
 import com.edinarobotics.utils.gamepad.gamepadfilters.GamepadFilterSet;
 import com.edinarobotics.utils.gamepad.gamepadfilters.PowerFilter;
+import com.edinarobotics.zenith.commands.DisableClawBrakeCommand;
+import com.edinarobotics.zenith.commands.EnableClawBrakeCommand;
 import com.edinarobotics.zenith.commands.FireShooterCommand;
 import com.edinarobotics.zenith.commands.PullInSolenoidCommand;
-import com.edinarobotics.zenith.commands.RotateXDegreesCommand;
 import com.edinarobotics.zenith.commands.RunClawToTargetCommand;
 import com.edinarobotics.zenith.commands.RunCollectorCommand;
 import com.edinarobotics.zenith.commands.SetLowGearCommand;
@@ -41,25 +42,33 @@ public class Controls {
 		gamepad0.rightBumper().whenPressed(new ToggleShiftingCommand());
 		
 		gamepad0.leftBumper().whenPressed(new ToggleBrakeModeCommand());
+		gamepad0.leftBumper().whenReleased(new ToggleBrakeModeCommand());
 		
 		gamepad0.middleRight().whenPressed(new ToggleDriveOrientationCommand());
 		
-		gamepad0.dPadLeft().whenPressed(new RotateXDegreesCommand(-30, .33));
-		gamepad0.dPadRight().whenPressed(new RotateXDegreesCommand(30, .33));
+		gamepad1.diamondUp().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM, gamepad1));
+		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.LOW_POWER, gamepad1));
+		gamepad1.diamondDown().whenPressed(new RunClawToTargetCommand(ClawTarget.HIGH_POWER, gamepad1));	
 		
-		gamepad1.diamondUp().whenPressed(new RunClawToTargetCommand(ClawTarget.TOP));
-		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.SHOOT));
-		gamepad1.diamondDown().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM));
+		gamepad1.dPadUp().whenPressed(new RunCollectorCommand(0.5));
+		gamepad1.dPadUp().whenReleased(new RunCollectorCommand(0));
 		
-		gamepad1.leftBumper().whenPressed(new RunCollectorCommand(0.5));
-		gamepad1.leftBumper().whenReleased(new RunCollectorCommand(0));
+		gamepad1.dPadDown().whenPressed(new RunCollectorCommand(-0.5));
+		gamepad1.dPadDown().whenReleased(new RunCollectorCommand(0));
 		
-		gamepad1.leftTrigger().whenPressed(new RunCollectorCommand(-0.5));
-		gamepad1.leftTrigger().whenReleased(new RunCollectorCommand(0));
+		gamepad1.leftBumper().whenPressed(new FireShooterCommand(false));
+		gamepad1.leftTrigger().whenPressed(new FireShooterCommand(true));
 		
-		gamepad1.rightBumper().whenPressed(new FireShooterCommand());
+		gamepad1.middleRight().whenPressed(new RunCollectorCommand(0.2));
+		gamepad1.middleRight().whenReleased(new RunCollectorCommand(0));
 		
 		gamepad1.middleLeft().whenPressed(new PullInSolenoidCommand());
+		
+		gamepad1.rightBumper().whenPressed(new DisableClawBrakeCommand());
+		gamepad1.rightBumper().whenReleased(new EnableClawBrakeCommand());
+		
+		gamepad1.rightTrigger().whenPressed(new RunCollectorCommand(-0.375));
+		gamepad1.rightTrigger().whenReleased(new RunCollectorCommand(0.0));
 	}
 
 	/**

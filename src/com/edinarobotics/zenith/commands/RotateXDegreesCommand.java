@@ -10,7 +10,7 @@ public class RotateXDegreesCommand extends Command {
 
 	private Drivetrain drivetrain;
 	private Gyro gyro;
-	private double degrees, velocity, startingAngle;
+	private double degrees, velocity;
 	
 	public RotateXDegreesCommand(double degrees, double velocity) {
 		super("rotatexdegreescommand");
@@ -18,7 +18,6 @@ public class RotateXDegreesCommand extends Command {
 		gyro = Components.getInstance().gyro;
 		this.degrees = degrees;
 		this.velocity = velocity;
-		startingAngle = gyro.getAngle();
 		requires(drivetrain);
 	}
 	
@@ -41,17 +40,12 @@ public class RotateXDegreesCommand extends Command {
 			} else {
 				drivetrain.setDrivetrain(0, -velocity);
 			}
-		} else {
-			drivetrain.setDrivetrain(0.0, 0.0);
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		int gyroAngle = (int) gyro.getAngle();
-		int targetAngle = (int) (startingAngle + degrees);
-
-		return gyroAngle == targetAngle;
+		return ((int) gyro.getAngle()) == (((int) gyro.getAngle()) + degrees);
 	}
 
 	@Override

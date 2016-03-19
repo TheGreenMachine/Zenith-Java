@@ -22,5 +22,9 @@ public class Collector extends Subsystem1816 {
 		this.velocity = velocity;
 		update();
 	}
+	
+	public double getVelocity() {
+		return velocity;
+	}
 
 }

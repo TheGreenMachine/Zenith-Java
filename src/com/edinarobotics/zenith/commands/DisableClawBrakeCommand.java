@@ -1,25 +1,24 @@
 package com.edinarobotics.zenith.commands;
 
 import com.edinarobotics.zenith.Components;
-import com.edinarobotics.zenith.subsystems.Shooter;
+import com.edinarobotics.zenith.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FireShooterCommand extends Command {
+public class DisableClawBrakeCommand extends Command{
 
-	private Shooter shooter;
-	private boolean lowPower;
+private Claw claw;
 	
-	public FireShooterCommand(boolean lowPower) {
-		super("fireshootercommand");
-		shooter = Components.getInstance().shooter;
-		this.lowPower = lowPower;
-		requires(shooter);
+	public DisableClawBrakeCommand() {
+		super("disableclawbrakecommand");
+		claw = Components.getInstance().claw;
+		requires(claw);
 	}
 	
 	@Override
 	protected void initialize() {
-		shooter.toggleShooter(lowPower);
+		claw.disableBrake();
+		System.out.println("Brake Disabled");
 	}
 
 	@Override
@@ -39,7 +38,7 @@ public class FireShooterCommand extends Command {
 
 	@Override
 	protected void interrupted() {
-		
+
 	}
 
 }

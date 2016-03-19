@@ -1,6 +1,5 @@
 package com.edinarobotics.zenith.subsystems;
 
-import com.edinarobotics.utils.*;
 import com.edinarobotics.utils.controllers.SpeedControllerWrapper;
 import com.edinarobotics.utils.subsystems.Subsystem1816;
 
@@ -17,7 +16,7 @@ public class Drivetrain extends Subsystem1816 {
 	private double verticalStrafe, rotation;
 
 	private DoubleSolenoid solenoid;
-	private boolean toggled = false;
+	private boolean toggled = true;
 	
 	private boolean orientationSwapped = false;
 
@@ -48,13 +47,12 @@ public class Drivetrain extends Subsystem1816 {
 		leftSide = new SpeedControllerWrapper(this.topLeft, this.middleLeft, this.bottomLeft);
 		rightSide = new SpeedControllerWrapper(this.topRight, this.middleRight, this.bottomRight);
 		
-		
 		leftSide.setPID(P, I, D);
 		rightSide.setPID(P, I, D);
 		
 		leftSide.setInverted(true); 
 		
-		solenoid = new DoubleSolenoid(pcmId, shiftingPcmId, shiftingPcmId2);
+		solenoid = new DoubleSolenoid(pcmId, shiftingPcmId, shiftingPcmId2);  // NJL Fault here
 		
 	}
 
@@ -72,10 +70,10 @@ public class Drivetrain extends Subsystem1816 {
 		}
 		
 		if (isOrientationSwapped()) {
-			leftSide.set(-leftVelocity);
+			leftSide.set(-leftVelocity * 1.04);
 			rightSide.set(-rightVelocity);
 		} else {
-			leftSide.set(leftVelocity);
+			leftSide.set(leftVelocity * 1.04);
 			rightSide.set(rightVelocity);
 		}
 			
@@ -88,6 +86,8 @@ public class Drivetrain extends Subsystem1816 {
 			solenoid.set(Value.kReverse);
 
 		System.out.println("Solenoid value: " + solenoid.get().toString());
+		System.out.println("Left Encoder Value: " + middleLeft.getEncPosition());
+		System.out.println("Right Encoder Value: " + middleRight.getEncPosition());
 	}
 
 	public void setDefaultCommand(Command command) {
@@ -104,7 +104,7 @@ public class Drivetrain extends Subsystem1816 {
 		}
 
 		this.verticalStrafe = verticalStrafe;
-		this.rotation = rotation;
+		this.rotation = rotation*0.75;
 		update();
 	}
 
@@ -156,6 +156,52 @@ public class Drivetrain extends Subsystem1816 {
 
 	public CANTalon getMiddleRight() {
 		return middleRight;
+	}
+	
+	public void setLeft(double verticalStrafe, double rotation){
+		double leftVelocity = verticalStrafe;
+		
+		if (rotation > 0) {
+			leftVelocity += rotation;
+		} else if (rotation < 0) {
+			leftVelocity += rotation;
+		}
+		
+		if (isOrientationSwapped()) {
+			leftSide.set(-leftVelocity * 1.04);
+		} else {
+			leftSide.set(leftVelocity * 1.04);
+		}
+			
+		leftSide.enableBrakeMode(brakeMode);
+		
+		if (toggled)
+			solenoid.set(Value.kForward);
+		else
+			solenoid.set(Value.kReverse);
+	}
+	
+	public void setRight(double verticalStrafe, double rotation){
+		double rightVelocity = verticalStrafe;
+		
+		if (rotation > 0) {
+			rightVelocity -= rotation;
+		} else if (rotation < 0) {
+			rightVelocity -= rotation;
+		}
+		
+		if (isOrientationSwapped()) {
+			rightSide.set(-rightVelocity);
+		} else {
+			rightSide.set(rightVelocity);
+		}
+			
+		rightSide.enableBrakeMode(brakeMode);
+		
+		if (toggled)
+			solenoid.set(Value.kForward);
+		else
+			solenoid.set(Value.kReverse);
 	}
 	
 }
