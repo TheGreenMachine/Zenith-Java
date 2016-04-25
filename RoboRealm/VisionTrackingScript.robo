@@ -1,0 +1,118 @@
+<head><version>2.79.26</version></head>
+<Axis_Internet_Camera>
+  <auto_back_light>TRUE</auto_back_light>
+  <auto_exposure>FALSE</auto_exposure>
+  <auto_white_balance>TRUE</auto_white_balance>
+  <brightness_value>50</brightness_value>
+  <color_level_value>50</color_level_value>
+  <compression_index>5</compression_index>
+  <contrast_value>50</contrast_value>
+  <exposure_value>50</exposure_value>
+  <ip_address>10.18.16.90</ip_address>
+  <is_active>TRUE</is_active>
+  <mirrot>FALSE</mirrot>
+  <password>FRC</password>
+  <port>80</port>
+  <resolution>640x480</resolution>
+  <sharpness_value>50</sharpness_value>
+  <username>FRC</username>
+</Axis_Internet_Camera>
+<RGB_Filter>
+  <channel>2</channel>
+  <hue_value>50</hue_value>
+  <hysteresis>0</hysteresis>
+  <min_value>100</min_value>
+  <result_type>1</result_type>
+</RGB_Filter>
+<Marker>
+  <include_graphics>0</include_graphics>
+  <name>Thresholded</name>
+  <revert_to>Current</revert_to>
+</Marker>
+<Blob_Filter>
+  <create_blob_array_variable>TRUE</create_blob_array_variable>
+  <filters>
+    <tab>
+      <filter>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>8</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>0</invert_threshold>
+        <minimum_size>200</minimum_size>
+        <weight_threshold>0.5</weight_threshold>
+      </filter>
+      <filter:2>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>56</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>1</invert_threshold>
+        <weight_threshold>0.4</weight_threshold>
+      </filter:2>
+      <filter:3>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>155</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>0</invert_threshold>
+        <weight_threshold>0.5</weight_threshold>
+      </filter:3>
+      <filter:4>
+        <count_threshold>0</count_threshold>
+        <create_array>0</create_array>
+        <filter_id>21</filter_id>
+        <invert_count>0</invert_count>
+        <invert_threshold>0</invert_threshold>
+        <weight_threshold>0.5</weight_threshold>
+      </filter:4>
+    </tab>
+    <tab:2/>
+    <tab:3/>
+    <tab:4/>
+    <tab:5/>
+    <tab:6/>
+  </filters>
+  <font_size>Normal (10pt)</font_size>
+  <largest_is_background>FALSE</largest_is_background>
+  <show_weights>FALSE</show_weights>
+  <sort_array_on_x>FALSE</sort_array_on_x>
+  <sort_array_on_y>FALSE</sort_array_on_y>
+</Blob_Filter>
+<Colorize>
+  <rgb>#00FF00</rgb>
+</Colorize>
+<Math>
+  <all_channels>TRUE</all_channels>
+  <bias>0</bias>
+  <divisor>1</divisor>
+  <function>13</function>
+  <image1>Source</image1>
+  <image2>Current</image2>
+</Math>
+<Display_Arrow>
+  <clear_image>0</clear_image>
+  <color>yellow</color>
+  <display_as_annotation>0</display_as_annotation>
+  <display_mode_index>0</display_mode_index>
+  <head_thickness>20</head_thickness>
+  <line_thickness>5</line_thickness>
+  <xy_list/>
+  <x_end>[blobs:0]</x_end>
+  <x_end_map/>
+  <x_start>[image_width/2]</x_start>
+  <x_start_map/>
+  <y_end>[blobs:1+40]</y_end>
+  <y_end_map/>
+  <y_start>[image_height/2]</y_start>
+  <y_start_map/>
+</Display_Arrow>
+<NetworkTables>
+  <delay>100</delay>
+  <filter_type_index>0</filter_type_index>
+  <hostname>10.18.16.2</hostname>
+  <port>1735</port>
+  <prefix>/SmartDashboard/</prefix>
+  <variables_to_send>BLOBS</variables_to_send>
+  <variable_type_index>0</variable_type_index>
+</NetworkTables>
