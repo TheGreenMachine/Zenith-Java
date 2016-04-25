@@ -5,20 +5,19 @@ import com.edinarobotics.zenith.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleClawBrakeCommand extends Command{
+public class EnableClawBrakeCommand extends Command{
 
 private Claw claw;
 	
-	public ToggleClawBrakeCommand() {
-		super("toggleclawbrakecommand");
+	public EnableClawBrakeCommand() {
+		super("enableclawbrakecommand");
 		claw = Components.getInstance().claw;
 		requires(claw);
 	}
 	
 	@Override
 	protected void initialize() {
-		claw.toggleBrakeSolenoid();
-		System.out.println("Brake Toggled");
+		claw.enableBrake();
 	}
 
 	@Override

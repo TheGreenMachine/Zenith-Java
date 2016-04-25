@@ -5,7 +5,7 @@ import com.edinarobotics.zenith.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleDriveOrientationCommand extends Command { 
+public class ToggleDriveOrientationCommand extends Command {
 
 	private Drivetrain drivetrain;
 	

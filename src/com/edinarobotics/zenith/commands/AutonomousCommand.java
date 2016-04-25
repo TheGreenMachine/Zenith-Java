@@ -1,143 +1,81 @@
 package com.edinarobotics.zenith.commands;
 
+import com.edinarobotics.zenith.Controls;
+import com.edinarobotics.zenith.subsystems.Claw.ClawTarget;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 public class AutonomousCommand extends CommandGroup {
 
-	public AutonomousCommand(StartingPosition startingPosition, 
-			DefensePosition defensePosition, ScoringOption scoringOption) {
-
-		if (defensePosition == defensePosition.LOW_BAR) {
+	public AutonomousCommand(AutonomousMode mode) {
+		
+		switch(mode) {
 			
-			if (startingPosition == startingPosition.LEFT) {
+			case LOW_BAR_WAIT:
 				
-				//Drive to base of Low Bar
-				addSequential(new DriveXInchesCommand(58.75, .5));
+				addParallel(new RunCollectorCommand(-0.375));
 				
-				addSequential(new RotateXDegreesCommand(180, .5));
+				addSequential(new RunClawToTargetCommand(ClawTarget.LOW_BAR, Controls.getInstance().gamepad1));
 				
-				//Drive through the Low Bar
-				addSequential(new DriveXInchesCommand(-78.5, .5));
+				addSequential(new WaitCommand(1));
 				
-				addSequential(new RotateXDegreesCommand(180, .5));
+				addSequential(new DriveXTimeCommand(-.5, 8.0)); 
 				
-				addSequential(new RotateXDegreesCommand(73.1535, .5));
+				addSequential(new RunCollectorCommand(0.0));
 				
-				addSequential(new DriveXInchesCommand(153.5914, .5));
+				break;
 				
-				addSequential(new RotateXDegreesCommand(-73.1535, .5));
+			case GENERAL_BREACH:
 				
-				addSequential(new DriveXInchesCommand(48.3419, .5));
+				addParallel(new RunCollectorCommand(-0.375));
 				
-				if (scoringOption == scoringOption.LOW_GOAL) {
-					
-					addSequential(new DriveXInchesCommand(48, .5));
-					
-					addSequential(new RunCollectorCommand(.5), 2);
-					
-				} else if (scoringOption == scoringOption.HIGH_GOAL){
-					
-					// Vision
-					
-				} else {
-					
-				}
+				addSequential(new RunClawToTargetCommand(ClawTarget.AUTO, Controls.getInstance().gamepad1));
 				
-			} else if (startingPosition == startingPosition.MIDDLE) {
+				addSequential(new WaitCommand(1));
 				
-				addSequential(new RotateXDegreesCommand(-90, .5));
+				addSequential(new DriveXTimeCommand(0.75, 4.0));
 				
-				addSequential(new DriveXInchesCommand(135, .5));
+				addSequential(new RunCollectorCommand(0.0));
 				
-				addSequential(new RotateXDegreesCommand(90, .5));
+				break;
 				
-				addSequential(new DriveXInchesCommand(58.75, .5));
+			case TEST_AUTO:
 				
-				addSequential(new RotateXDegreesCommand(180, .5));
+				addSequential(new ToggleBrakeModeCommand());
 				
-				//Drive through the Low Bar
-				addSequential(new DriveXInchesCommand(-78.5, .5));
+				addParallel(new RunCollectorCommand(-0.375));
 				
-				addSequential(new RotateXDegreesCommand(180, .5));
+				addSequential(new RunClawToTargetCommand(ClawTarget.LOW_BAR, Controls.getInstance().gamepad1));
 				
-				addSequential(new RotateXDegreesCommand(73.1535, .5));
+				addSequential(new DriveXInchesCommand(-220, 0.375));
 				
-				addSequential(new DriveXInchesCommand(153.5914, .5));
+				addSequential(new RunClawToTargetCommand(ClawTarget.HIGH_POWER, Controls.getInstance().gamepad1));
 				
-				addSequential(new RotateXDegreesCommand(-73.1535, .5));
+				addSequential(new RotateXDegreesEncoderCommand(115, 0.75));
 				
-				addSequential(new DriveXInchesCommand(48.3419, .5));
+				addSequential(new DriveXInchesCommand(48, 0.5));
 				
-				if (scoringOption == scoringOption.LOW_GOAL) {
-					
-					addSequential(new DriveXInchesCommand(48, .5));
-					
-					addSequential(new RunCollectorCommand(.5), 2);
-					
-				} else if (scoringOption == scoringOption.HIGH_GOAL){
-					
-					// Vision
-					
-				} else {
-					
-				}
+				break;
 				
-			} else {
+			case NOTHING:
 				
-				addSequential(new RotateXDegreesCommand(-90, .5));
+				break;
 				
-				addSequential(new DriveXInchesCommand(270, .5));
+			default:
 				
-				addSequential(new RotateXDegreesCommand(90, .5));
-				
-				addSequential(new DriveXInchesCommand(58.75, .5));
-				
-				addSequential(new RotateXDegreesCommand(180, .5));
-				
-				//Drive through the Low Bar
-				addSequential(new DriveXInchesCommand(-78.5, .5));
-				
-				addSequential(new RotateXDegreesCommand(180, .5));
-				
-				addSequential(new RotateXDegreesCommand(73.1535, .5));
-				
-				addSequential(new DriveXInchesCommand(153.5914, .5));
-				
-				addSequential(new RotateXDegreesCommand(-73.1535, .5));
-				
-				addSequential(new DriveXInchesCommand(48.3419, .5));
-				
-				if (scoringOption == scoringOption.LOW_GOAL) {
-					
-					addSequential(new DriveXInchesCommand(48, .5));
-					
-					addSequential(new RunCollectorCommand(.5), 2);
-					
-				} else if (scoringOption == scoringOption.HIGH_GOAL){
-					
-					// Vision
-					
-				} else {
-					
-				}
-				
-			}
-			
+				break;
+		
 		}
 		
-
-	}
-
-	public enum StartingPosition {
-		LEFT, MIDDLE, RIGHT;
 	}
 	
-	public enum ScoringOption {
-		LOW_GOAL, HIGH_GOAL, NONE;
+	public enum AutonomousMode {
+		LOW_BAR_WAIT,
+		GENERAL_BREACH,
+		LOW_BAR_HIGH_GOAL,
+		TEST_AUTO,
+		NOTHING;
 	}
 	
-	public enum DefensePosition {
-		LOW_BAR;
-	}
-
 }

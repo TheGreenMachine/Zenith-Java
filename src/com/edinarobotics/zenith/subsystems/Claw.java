@@ -4,122 +4,98 @@ import com.edinarobotics.utils.subsystems.Subsystem1816;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.CANTalon;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Claw extends Subsystem1816 {
 
-	private CANTalon talon;
+	private CANTalon talon, flashlightTalon;
 	private AnalogPotentiometer potentiometer;
 	
+	private static Preferences preferences;
+	
 	private Solenoid brakeSolenoid;
-
-	private double target = 0.0;
-	private double velocity = 0.0;
+	
+	private double target = 399;
 	public boolean preset = false;
-
-	public Claw(int talon, int potentiometer, int pcmId, int solenoidPcmId) {
+	public boolean brake = false;
+	public boolean flashlight = false;
+	
+	private final double P = 0.8;
+	private final double I = 0.0001;
+	private final double D = 0.0001;
+	
+	public Claw(int talon, int potentiometer, int pcmId, int solenoidPcmId, int flashlightPcmId, int flashlightTalon) {
 		this.talon = new CANTalon(talon);
+		this.flashlightTalon = new CANTalon(flashlightTalon);
 		this.potentiometer = new AnalogPotentiometer(potentiometer);
 		
+		preferences = Preferences.getInstance();
+				
+		this.talon.setP(P);
+		this.talon.setI(I);
+		this.talon.setD(D);		
+		
+		target = this.talon.get();
+		
 		brakeSolenoid = new Solenoid(pcmId, solenoidPcmId);
-		brakeSolenoid.set(false);
 	}
-
+	
+	
 	@Override
 	public void update() {
-		talon.set(velocity);
-
-		System.out.println("Current state: (preset or not)" + preset);
-		System.out.println("Current reading: " + getCurrentPosition());
-		System.out.println("Current target: " + target);
-		System.out.println("Current motor value: " + talon.get());
+		if (!preset)
+			talon.set(target);
 		
-		
+	//	System.out.println("Potentiometer Value: " + getCurrentPosition());
 	}
-
+	
 	public enum ClawTarget {
-		BOTTOM(-1), 
-		HIGH_POWER(20), 
-		LOW_POWER(24), 
-		TOP(26);
-
-		private double target;
-
-		ClawTarget(double target) {
-			this.target = target;
+		
+		BOTTOM("BottomPosition"),
+		LOW_BAR("LowBarPosition"),
+		AUTO("AutonomousPosition"),
+		HIGH_POWER("HighPowerPosition"),	
+		LOW_POWER("LowPowerPosition"),
+		ELLINGTON("Ellington");
+		
+		private String name;
+		
+		ClawTarget(String name) {
+			this.name = name;
 		}
-
-		public double getTarget() {
-			return target + 400;
+		
+		public double getTarget(){
+			return -preferences.getDouble(name, 0) + 180;
 		}
-
+		
 	}
-
-	public boolean isAbove() {
-		return (getCurrentPosition() - 1) > getTarget();
-	}
-
-	public boolean isBelow() {
-		return (getTarget() - 1) > getCurrentPosition();
-	}
-
-	public boolean isAtTarget() {
-		return Math.abs(getCurrentPosition() - getTarget()) < 1;
-	}
-
-	public void runUp() {
-		velocity = -0.5;
+	
+	public void setTarget(ClawTarget target) {
+		this.target = target.getTarget();
 		update();
 	}
-
-	public void runDown() {
-		velocity = 0.5;
+	
+	public void setTarget(double target) {
+		this.target = -target*.75;
 		update();
 	}
-
-	public void endTarget() {
-		velocity = 0.0;
-		preset = false;
-		update();
-	}
-
-	public double getTarget() {
-		return target;
-	}
-
-	public void resetTarget() {
-		target = getCurrentPosition();
-		update();
-	}
-
-	public void setTarget(ClawTarget level) {
-		preset = true;
-		target = level.getTarget();
-		update();
-	}
-
-	public void setTarget(double velocity) {
-		if (preset = false) {
-			this.velocity = -velocity * .75;
-			update();
-		}
-	}
-
-	public void setPreset(boolean preset) {
-		this.preset = preset;
-		update();
-	}
-
+	
 	public void setDefaultCommand(Command command) {
 		if (getDefaultCommand() != null) {
 			super.getDefaultCommand().cancel();
 		}
 		super.setDefaultCommand(command);
 	}
-
-	public int getCurrentPosition() {
+	
+	public double getCurrentPosition() {
 		return (int) (potentiometer.get() * 1000);
+	}
+	
+	public void setTalon(double talonSet) {
+		talon.set(talonSet);
 	}
 	
 	public Solenoid getBrakeSolenoid() {
@@ -128,6 +104,42 @@ public class Claw extends Subsystem1816 {
 	
 	public void toggleBrakeSolenoid() {
 		brakeSolenoid.set(!brakeSolenoid.get());
+	}
+	
+	public void disableBrake() {
+		if(brake){
+			brakeSolenoid.set(true);
+			brake = false;
+		}
+	}
+	
+	public void enableBrake(){
+		if(!brake){
+			brakeSolenoid.set(false);
+			brake = true;
+		}
+	}
+	
+	public boolean isBrakeEnabled(){
+		return brakeSolenoid.get();
+	}
+	
+	public void turnOnFlashlight(){
+		if(!flashlight){
+			flashlightTalon.set(1.0);
+			flashlight = true;
+		}
+	}
+	
+	public void turnOffFlashlight(){
+		if(flashlight){
+			flashlightTalon.set(0.0);
+			flashlight = false;
+		}
+	}
+	
+	public boolean isFlashlightOn(){
+		return flashlight;
 	}
 
 }

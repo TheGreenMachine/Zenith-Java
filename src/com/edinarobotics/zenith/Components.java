@@ -6,24 +6,19 @@ import com.edinarobotics.zenith.subsystems.Drivetrain;
 import com.edinarobotics.zenith.subsystems.Shooter;
 import com.edinarobotics.zenith.subsystems.Vision;
 
-import edu.wpi.first.wpilibj.ADXL362;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer;
-import edu.wpi.first.wpilibj.interfaces.Accelerometer.Range;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class Components {
 
-	private static Components instance;
+	private static Components instance = null;
 	public Drivetrain drivetrain;
 	public Claw claw;
 	public Shooter shooter;
 	public Collector collector;
-
-	public Compressor compressor;
 	public Gyro gyro;
-	public Accelerometer accelerometer;
+	public Compressor compressor;
 	public Vision vision;
 
 	// CAN Constants
@@ -35,56 +30,56 @@ public class Components {
 		private static final int BOTTOM_LEFT_CANTALON = 1;
 		private static final int BOTTOM_RIGHT_CANTALON = 5;
 		// End Drivetrain Constants
-	
-		// Claw Constants
+		
+		//Claw Constants
 		private static final int CLAW_CANTALON = 4;
-		// End Claw Constants
-	
-		// Collector Constants
+		private static final int FLASHLIGHT_CANTALON = 12;
+		//End Claw Constants
+		
+		//Collector Constants
 		private static final int COLLECTOR_CANTALON = 8;
-		// End Collector Constants
-	// End CAN Constants
-
-	// Analog Constants
+		//End Collector Constants
+		
+	// End CAN Constants //188
+		
+	//Analog Constants
 	private static final int POTENTIOMETER = 0;
-	private static final int PRESSURE_SENSOR = 1;
-	// End Potentiometer Constants
-
-	// Pneumatic Constants
-		// Drivetrain Constants
+	//End Analog Constants
+	
+	//Pneumatic Constants	
+		//Drivetrain Constants
 		private static final int SHIFTING_PCM_ID_1 = 0;
 		private static final int SHIFTING_PCM_ID_2 = 1;
-		// End Drivetrain Constants
-
-		// Shooter Constants
+		//End Drivetrain Constants
+		
+		//Shooter Constants
 		private static final int SHOOTER_PCM_1 = 2;
 		private static final int SHOOTER_PCM_2 = 3;
-		private static final int SHOOTER_PCM_3 = 4;
-		// End Shooter Constants
-
-		// Brake Constants
-		private static final int BRAKE_PCM_ID = 5;
-		// End Brake Constants
+		private static final int LOW_POWER_PCM = 4;
+		private static final int BRAKE_PCM = 5;
+		private static final int FLASHLIGHT_PCM = 6;
+		//End Shooter Constants
 		
-		// Pneumatic Control Module
+		//Pneumatic Control Module
 		private static final int PCM_NODE_ID = 10;
-		// End Pneumatic Control Module
-	// End Pneumatic Constants
-
+		//End Pneumatic Control Module
+		
+	//End Pneumatic Constants
+		
+	
 	private Components() {
-		drivetrain = new Drivetrain(TOP_LEFT_CANTALON, TOP_RIGHT_CANTALON, MIDDLE_LEFT_CANTALON, MIDDLE_RIGHT_CANTALON,
-				BOTTOM_LEFT_CANTALON, BOTTOM_RIGHT_CANTALON, PCM_NODE_ID, SHIFTING_PCM_ID_1, SHIFTING_PCM_ID_2);
-		claw = new Claw(CLAW_CANTALON, POTENTIOMETER, PCM_NODE_ID, BRAKE_PCM_ID);
-		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2, SHOOTER_PCM_3, PRESSURE_SENSOR);
+		drivetrain = new Drivetrain(TOP_LEFT_CANTALON, TOP_RIGHT_CANTALON, 
+				MIDDLE_LEFT_CANTALON, MIDDLE_RIGHT_CANTALON, BOTTOM_LEFT_CANTALON, 
+				BOTTOM_RIGHT_CANTALON, PCM_NODE_ID, SHIFTING_PCM_ID_1, SHIFTING_PCM_ID_2);
+		claw = new Claw(CLAW_CANTALON, POTENTIOMETER, PCM_NODE_ID, BRAKE_PCM, FLASHLIGHT_PCM, FLASHLIGHT_CANTALON);
+		shooter = new Shooter(PCM_NODE_ID, SHOOTER_PCM_1, SHOOTER_PCM_2, LOW_POWER_PCM);
 		collector = new Collector(COLLECTOR_CANTALON);
-
-		compressor = new Compressor(PCM_NODE_ID);
-		compressor.start();
-
-		gyro = new ADXRS450_Gyro();
-		accelerometer = new ADXL362(Range.k4G);
-
 		vision = new Vision();
+		
+		compressor = new Compressor(PCM_NODE_ID);
+		compressor.start();	
+		
+		//gyro = new ADXRS450_Gyro();
 	}
 
 	/**

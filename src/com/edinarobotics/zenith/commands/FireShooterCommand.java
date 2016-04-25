@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class FireShooterCommand extends Command {
 
 	private Shooter shooter;
-	private boolean lowPower = false;
+	private boolean lowPower;
 	
 	public FireShooterCommand(boolean lowPower) {
 		super("fireshootercommand");

@@ -5,40 +5,44 @@ import com.edinarobotics.zenith.subsystems.Claw;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleClawBrakeCommand extends Command{
+public class FlashlightOnCommand extends Command{
 
-private Claw claw;
+	private Claw claw;
+	private int count;
 	
-	public ToggleClawBrakeCommand() {
-		super("toggleclawbrakecommand");
-		claw = Components.getInstance().claw;
+	public FlashlightOnCommand(){
+		super("flashlightoncommand");
+		this.claw = Components.getInstance().claw;
 		requires(claw);
 	}
 	
 	@Override
 	protected void initialize() {
-		claw.toggleBrakeSolenoid();
-		System.out.println("Brake Toggled");
+		count = 0;
 	}
 
 	@Override
 	protected void execute() {
-		
+		if(count%2==0){
+			if(claw.isFlashlightOn())
+				claw.turnOffFlashlight();
+			else
+				claw.turnOnFlashlight();
+		}
+		count++;
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return count>8;
 	}
 
 	@Override
 	protected void end() {
-		
 	}
 
 	@Override
 	protected void interrupted() {
-
 	}
 
 }

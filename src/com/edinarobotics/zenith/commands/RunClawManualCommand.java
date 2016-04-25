@@ -20,13 +20,11 @@ public class RunClawManualCommand extends Command{
 	
 	@Override
 	protected void initialize() {
-		if (!claw.preset)
-			claw.setTarget(gamepad.getRightJoystick().getY());		
+		claw.setTarget(1.1 * gamepad.getRightJoystick().getY() * Math.abs(Math.pow(gamepad.getRightJoystick().getY(), 2)));
 	}
- 
+
 	@Override
 	protected void execute() {
-		
 	}
 
 	@Override
@@ -36,12 +34,11 @@ public class RunClawManualCommand extends Command{
 
 	@Override
 	protected void end() {
-		
 	}
 
 	@Override
 	protected void interrupted() {
-		
+		end();
 	}
 
 }

@@ -2,77 +2,63 @@ package com.edinarobotics.zenith;
 
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.zenith.commands.AutonomousCommand;
-import com.edinarobotics.zenith.commands.AutonomousCommand.DefensePosition;
-import com.edinarobotics.zenith.commands.AutonomousCommand.ScoringOption;
-import com.edinarobotics.zenith.commands.AutonomousCommand.StartingPosition;
+import com.edinarobotics.zenith.commands.AutonomousCommand.AutonomousMode;
 import com.edinarobotics.zenith.commands.GamepadDriveCommand;
 import com.edinarobotics.zenith.commands.RunClawManualCommand;
-import com.edinarobotics.zenith.commands.VisionUpdateCommand;
 import com.edinarobotics.zenith.subsystems.Claw;
 import com.edinarobotics.zenith.subsystems.Collector;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
-import com.edinarobotics.zenith.subsystems.Vision;
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ImageType;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Zenith extends IterativeRobot {
+	
 	private Drivetrain drivetrain;
 	private Claw claw;
 	private Collector collector;
-	private Vision vision;
+	
+	private SendableChooser autoChooser;
+	private Preferences preferences;
+	
+	private CameraServer cam1;
 
-	//Autonomous
-	private StartingPosition startingPosition;
-	private DefensePosition defenseOption;
-	private ScoringOption scoringOption;
-	
-	private SendableChooser startingChooser;
-	private SendableChooser defenseChooser;
-	private SendableChooser scoringChooser;
-	
 	public void robotInit() {
-		Controls.getInstance();
 		Components.getInstance();
+		Controls.getInstance();
 
 		drivetrain = Components.getInstance().drivetrain;
 		claw = Components.getInstance().claw;
 		collector = Components.getInstance().collector;
-		vision = Components.getInstance().vision;
 		
-		startingChooser = new SendableChooser();
-		defenseChooser = new SendableChooser();
-		scoringChooser = new SendableChooser();
-		
-		startingChooser.addDefault("Left", StartingPosition.LEFT);
-		startingChooser.addObject("Middle", StartingPosition.MIDDLE);
-		startingChooser.addObject("Right", StartingPosition.RIGHT);
-		SmartDashboard.putData("Starting Position Chooser", startingChooser);
-		
-		defenseChooser.addDefault("Low Bar", DefensePosition.LOW_BAR);
-		SmartDashboard.putData("Defense Chooser", defenseChooser);
-		
-		scoringChooser.addDefault("Nothing", ScoringOption.NONE);
-		scoringChooser.addObject("Low Goal", ScoringOption.LOW_GOAL);
-		scoringChooser.addObject("High Goal", ScoringOption.HIGH_GOAL);
-		SmartDashboard.putData("Scoring Chooser", scoringChooser);
-	}
+//		cam1 = CameraServer.getInstance();
+//		cam1.setQuality(20);
+//		cam1.setSize(2);
+//		cam1.startAutomaticCapture("cam1");
+				
+		setupDashboard();
+	}   
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
 	public void autonomousInit() {
-		startingPosition = (StartingPosition) startingChooser.getSelected();
-		defenseOption = (DefensePosition) defenseChooser.getSelected();
-		scoringOption = (ScoringOption) scoringChooser.getSelected();
+		if (autoChooser == null) {
+			setupDashboard();
+		}
 		
-		Command command = new AutonomousCommand(startingPosition, defenseOption, scoringOption);
-		command.start();
+		Command cmd = new AutonomousCommand((AutonomousMode) autoChooser.getSelected());
+		cmd.start();
 	}
 
 	public void autonomousPeriodic() {
@@ -85,12 +71,10 @@ public class Zenith extends IterativeRobot {
 
 		drivetrain.setDefaultCommand(new GamepadDriveCommand(gamepad0));
 		claw.setDefaultCommand(new RunClawManualCommand(gamepad1));
-		vision.setDefaultCommand(new VisionUpdateCommand());
 	}
 
 	public void disabledInit() {
 		stop();
-		Components.getInstance().shooter.solenoid.set(Value.kOff);
 	}
 
 	public void teleopPeriodic() {
@@ -102,17 +86,29 @@ public class Zenith extends IterativeRobot {
 
 	}
 	
+	public void setupDashboard() {
+		autoChooser = new SendableChooser();
+		preferences = Preferences.getInstance();
+		
+		autoChooser.addObject("Low Bar", AutonomousMode.LOW_BAR_WAIT);
+		autoChooser.addObject("Generic breach", AutonomousMode.GENERAL_BREACH);
+		autoChooser.addDefault("Test Auto", AutonomousMode.TEST_AUTO);
+		autoChooser.addObject("Do Nothing", AutonomousMode.NOTHING);
+		
+		SmartDashboard.putData("Auto Chooser", autoChooser);
+	}
+	
 	public void updateDashboard() {
 		//Claw
-		SmartDashboard.putBoolean("Brake Solenoid? ", claw.getBrakeSolenoid().get());
-		SmartDashboard.putNumber("Potentiometer reading: ", claw.getCurrentPosition());
-		SmartDashboard.putNumber("Potentiometer target: ", claw.getTarget());
-		SmartDashboard.putBoolean("Claw below target: ", claw.isBelow());
-		SmartDashboard.putBoolean("Claw above target: ", claw.isAbove());
-		SmartDashboard.putBoolean("Claw at target: ", claw.isAtTarget());
+		SmartDashboard.putNumber("Current position: ", (claw.getCurrentPosition() - 180));	
+		SmartDashboard.putBoolean("Claw Brake Active? ", claw.getBrakeSolenoid().get());
+
+		//Drivetrain
+		SmartDashboard.putBoolean("Drivetrain Brake mode? ", drivetrain.getBrakeMode());
+		SmartDashboard.putBoolean("High gear? ", !drivetrain.getToggled());
 		
-		//Shooter
-		SmartDashboard.putBoolean("High powered shot? ", Components.getInstance().shooter.lowPowerSolenoid.get());
+		//Etc
+		SmartDashboard.putNumber("Battery voltage: ", DriverStation.getInstance().getBatteryVoltage());
 	}
 
 	public void stop() {

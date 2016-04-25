@@ -28,11 +28,7 @@ public class GamepadDriveCommand extends Command {
 		double verticalStrafe = gamepad.getLeftJoystick().getY();
 		double rotation = gamepad.getRightJoystick().getX();
 
-		if (drivetrain.isOrientationSwapped()) {
-			drivetrain.setDrivetrain(-verticalStrafe, rotation);
-		} else {
-			drivetrain.setDrivetrain(verticalStrafe, rotation);
-		}
+		drivetrain.setDrivetrain(verticalStrafe, rotation);
 	}
 
 	@Override
@@ -42,12 +38,12 @@ public class GamepadDriveCommand extends Command {
 
 	@Override
 	protected void end() {
-		drivetrain.setDrivetrain(0.0, 0.0);
+
 	}
 
 	@Override
 	protected void interrupted() {
-		end();	
+
 	}
 
 }
