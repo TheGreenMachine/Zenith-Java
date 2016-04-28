@@ -40,7 +40,7 @@ public class Zenith extends IterativeRobot {
 		drivetrain = Components.getInstance().drivetrain;
 		claw = Components.getInstance().claw;
 		collector = Components.getInstance().collector;
-		
+				
 //		cam1 = CameraServer.getInstance();
 //		cam1.setQuality(20);
 //		cam1.setSize(2);

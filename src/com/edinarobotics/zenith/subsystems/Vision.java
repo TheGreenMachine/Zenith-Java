@@ -104,7 +104,7 @@ public class Vision extends Subsystem1816 {
 		// end task
 		
 		if(isOnTarget()) {
-			if(claw.getCurrentPosition() - 641 < -225) {
+			if(claw.getCurrentPosition() - 641 < -180) {
 				offsetting = true;
 			}
 		}

@@ -2,50 +2,51 @@ package com.edinarobotics.zenith.commands;
 
 import com.edinarobotics.zenith.Components;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class RotateXDegreesCommand extends Command {
-
-	private Drivetrain drivetrain;
-	private Gyro gyro;
-	private double degrees, velocity;
 	
-	public RotateXDegreesCommand(double degrees, double velocity) {
+	private Drivetrain drivetrain;
+	private AHRS navX;
+	
+	private int degrees;
+	private int endingDegree;
+	
+	public RotateXDegreesCommand(int degrees) {
 		super("rotatexdegreescommand");
 		drivetrain = Components.getInstance().drivetrain;
-		gyro = Components.getInstance().gyro;
+		navX = Components.getInstance().navX;
 		this.degrees = degrees;
-		this.velocity = velocity;
 		requires(drivetrain);
 	}
 	
 	@Override
 	protected void initialize() {
-
+		endingDegree = (int) navX.getAngle() + degrees;
 	}
 
 	@Override
 	protected void execute() {
-		if (gyro.getAngle() < degrees) {
-			if ((degrees - gyro.getAngle()) < 5) {
-				drivetrain.setDrivetrain(0, 0.1);
+		if (degrees > 0) {
+			if (Math.abs(endingDegree - navX.getAngle()) > 20) {
+				drivetrain.setDrivetrain(0.0, 0.5);
 			} else {
-				drivetrain.setDrivetrain(0, velocity);
+				drivetrain.setDrivetrain(0.0, 0.3); 	
 			}
-		} else if (gyro.getAngle() > degrees) {
-			if ((gyro.getAngle() - degrees) < 5) {
-				drivetrain.setDrivetrain(0, -0.1);
+		} else {
+			if (Math.abs(endingDegree - navX.getAngle()) > 20) {
+				drivetrain.setDrivetrain(0.0, -0.3);
 			} else {
-				drivetrain.setDrivetrain(0, -velocity);
+				drivetrain.setDrivetrain(0.0, -0.5);
 			}
-		}
+		} 
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return ((int) gyro.getAngle()) == (((int) gyro.getAngle()) + degrees);
+		return endingDegree == (int) navX.getAngle();
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class RotateXDegreesCommand extends Command {
 
 	@Override
 	protected void interrupted() {
-		
+		end();
 	}
 
 }

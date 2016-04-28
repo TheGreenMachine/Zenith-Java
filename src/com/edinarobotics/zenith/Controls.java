@@ -16,6 +16,7 @@ import com.edinarobotics.zenith.commands.FireShooterCommand;
 import com.edinarobotics.zenith.commands.FlashlightOffCommand;
 import com.edinarobotics.zenith.commands.FlashlightOnCommand;
 import com.edinarobotics.zenith.commands.PullInSolenoidCommand;
+import com.edinarobotics.zenith.commands.RotateXDegreesCommand;
 import com.edinarobotics.zenith.commands.RunClawToTargetCommand;
 import com.edinarobotics.zenith.commands.RunCollectorCommand;
 import com.edinarobotics.zenith.commands.SetLowGearCommand;
@@ -62,6 +63,7 @@ public class Controls {
 		gamepad0.dPadUp().whenPressed(new CycleOneFlashlightCommand());
 		
 		gamepad0.middleLeft().whenPressed(new VisionAutoAimCommand());
+		gamepad0.diamondRight().whenPressed(new RotateXDegreesCommand(90));
 		
 		gamepad1.diamondUp().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM, gamepad1));
 		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.LOW_POWER, gamepad1));

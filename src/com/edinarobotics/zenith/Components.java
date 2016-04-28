@@ -7,9 +7,10 @@ import com.edinarobotics.zenith.subsystems.Shooter;
 import com.edinarobotics.zenith.subsystems.Vision;
 import com.edinarobotics.zenith.subsystems.VisionHorizontal;
 import com.edinarobotics.zenith.subsystems.VisionVertical;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.SPI;
 
 public class Components {
 
@@ -18,7 +19,7 @@ public class Components {
 	public Claw claw;
 	public Shooter shooter;
 	public Collector collector;
-	public Gyro gyro;
+	public AHRS navX;
 	public Compressor compressor;
 	public Vision vision;
 	public VisionHorizontal visionHorizontal;
@@ -85,7 +86,7 @@ public class Components {
 		compressor = new Compressor(PCM_NODE_ID);
 		compressor.start();	
 		
-		//gyro = new ADXRS450_Gyro();
+		navX = new AHRS(SPI.Port.kMXP); 
 	}
 
 	/**
