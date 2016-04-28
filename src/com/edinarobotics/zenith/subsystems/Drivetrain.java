@@ -67,7 +67,6 @@ public class Drivetrain extends Subsystem1816 {
 
 	@Override
 	public void update() {
-		
 		double leftVelocity = verticalStrafe;
 		double rightVelocity = verticalStrafe;
 		
@@ -96,9 +95,6 @@ public class Drivetrain extends Subsystem1816 {
 			solenoid.set(Value.kForward);
 		else
 			solenoid.set(Value.kReverse);
-		
-		System.out.println("Toggled: " + toggled);
-
 	}
 
 	public void setDefaultCommand(Command command) {
@@ -115,7 +111,7 @@ public class Drivetrain extends Subsystem1816 {
 		}
 
 		this.verticalStrafe = verticalStrafe;
-		this.rotation = rotation*0.75;
+		this.rotation = rotation*1.0;
 		update();
 	}
 
@@ -138,12 +134,12 @@ public class Drivetrain extends Subsystem1816 {
 		this.toggled = toggled;
 		update();
 	}
-
+	
 	public void setBrakeMode(boolean brakeMode) {
 		this.brakeMode = brakeMode;
 		update();
 	}
-
+	
 	public void setOrientationSwapped(boolean orientation) {
 		this.orientationSwapped = orientation;
 		update();

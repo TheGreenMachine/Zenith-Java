@@ -1,3 +1,4 @@
+
 package com.edinarobotics.zenith;
 
 import com.edinarobotics.utils.gamepad.Gamepad;
@@ -100,7 +101,7 @@ public class Zenith extends IterativeRobot {
 	
 	public void updateDashboard() {
 		//Claw
-		SmartDashboard.putNumber("Current position: ", (claw.getCurrentPosition() - 180));	
+		SmartDashboard.putNumber("Current position: ", (claw.getCurrentPosition() - 641));	
 		SmartDashboard.putBoolean("Claw Brake Active? ", claw.getBrakeSolenoid().get());
 
 		//Drivetrain

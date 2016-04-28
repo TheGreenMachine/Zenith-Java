@@ -48,8 +48,6 @@ public class Claw extends Subsystem1816 {
 	public void update() {
 		if (!preset)
 			talon.set(target);
-		
-	//	System.out.println("Potentiometer Value: " + getCurrentPosition());
 	}
 	
 	public enum ClawTarget {
@@ -68,7 +66,7 @@ public class Claw extends Subsystem1816 {
 		}
 		
 		public double getTarget(){
-			return -preferences.getDouble(name, 0) + 180;
+			return -preferences.getDouble(name, 0) + 641;
 		}
 		
 	}

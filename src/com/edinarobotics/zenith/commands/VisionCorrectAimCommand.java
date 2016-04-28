@@ -1,23 +1,29 @@
 package com.edinarobotics.zenith.commands;
 
-import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.zenith.Components;
-import com.edinarobotics.zenith.Controls;
 import com.edinarobotics.zenith.subsystems.Claw;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
 import com.edinarobotics.zenith.subsystems.Vision;
+import com.edinarobotics.zenith.subsystems.VisionHorizontal;
+import com.edinarobotics.zenith.subsystems.VisionVertical;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class VisionCorrectAimCommand extends Command{
 
-	private Vision vision;
+//	private VisionArchive visionArchive;
+	private VisionHorizontal visionHorizontal;
+	private VisionVertical visionVertical;
 	private Drivetrain drivetrain;
 	private Claw claw;
 		
 	public VisionCorrectAimCommand(){
 		super("visioncorrectaimcommand");
-		vision = Components.getInstance().vision;
+		//visionArchive = Components.getInstance().visionArchive;
+		
+		visionHorizontal = Components.getInstance().visionHorizontal;
+		visionVertical = Components.getInstance().visionVertical;
+		
 		drivetrain = Components.getInstance().drivetrain;
 		claw = Components.getInstance().claw;
 		requires(drivetrain);
@@ -27,31 +33,38 @@ public class VisionCorrectAimCommand extends Command{
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		drivetrain.setBrakeMode(true);
-		vision.setActive(true);
+		//drivetrain.setBrakeMode(true);
+		//visionArchive.setActive(true);
+		
+		System.out.println("Initializing...");
+		
+		visionHorizontal.setSetpoint(237);
+		visionVertical.setSetpoint(95);
+		
+		visionVertical.enable();
+		visionHorizontal.enable();
 	}
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		vision.update();
+		//visionArchive.update();
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return vision.isOnTarget();
+		//return visionArchive.isOnTarget();
+		return visionHorizontal.onTarget() && visionVertical.onTarget();
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		drivetrain.setDrivetrain(0.0, 0.0);
 		claw.setTalon(0.0);
 		
 		drivetrain.setBrakeMode(false);
 		
-		vision.setActive(false);
+		//visionArchive.setActive(false);
+		//visionArchive.offsetting = false;
 	}
 
 	@Override

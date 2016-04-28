@@ -22,7 +22,7 @@ import com.edinarobotics.zenith.commands.SetLowGearCommand;
 import com.edinarobotics.zenith.commands.ToggleBrakeModeCommand;
 import com.edinarobotics.zenith.commands.ToggleDriveOrientationCommand;
 import com.edinarobotics.zenith.commands.ToggleShiftingCommand;
-import com.edinarobotics.zenith.commands.VisionCorrectAimCommand;
+import com.edinarobotics.zenith.commands.VisionAutoAimCommand;
 import com.edinarobotics.zenith.subsystems.Claw.ClawTarget;
 
 public class Controls {
@@ -61,7 +61,7 @@ public class Controls {
 		
 		gamepad0.dPadUp().whenPressed(new CycleOneFlashlightCommand());
 		
-		gamepad0.middleLeft().whenPressed(new VisionCorrectAimCommand());
+		gamepad0.middleLeft().whenPressed(new VisionAutoAimCommand());
 		
 		gamepad1.diamondUp().whenPressed(new RunClawToTargetCommand(ClawTarget.BOTTOM, gamepad1));
 		gamepad1.diamondRight().whenPressed(new RunClawToTargetCommand(ClawTarget.LOW_POWER, gamepad1));
