@@ -1,40 +1,42 @@
 package com.edinarobotics.zenith.commands;
 
+import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.zenith.Components;
+import com.edinarobotics.zenith.Controls;
 import com.edinarobotics.zenith.subsystems.Claw;
+import com.edinarobotics.zenith.subsystems.Claw.ClawSpeed;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class CycleOneFlashlightCommand extends Command{
+public class CalibratePotentiometerCommand extends Command {
 
 	private Claw claw;
-	private int count;
 	
-	public CycleOneFlashlightCommand(){
-		super("cycleoneflashlightcommand");
-		this.claw = Components.getInstance().claw;
+	public CalibratePotentiometerCommand(){
+		super("calibratepotentiometercommand");
+		claw = Components.getInstance().claw;
 		requires(claw);
 	}
 	
 	@Override
 	protected void initialize() {
-		claw.turnOnFlashlight();
-		count=0;
+		claw.moveDown(ClawSpeed.INSANE);
 	}
 
 	@Override
 	protected void execute() {
-		count++;
+		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return count>4;
+		return !claw.getLimitSwitch();
 	}
 
 	@Override
 	protected void end() {
-		claw.turnOffFlashlight();
+		claw.stopClaw();
+		claw.resetZero();
 	}
 
 	@Override

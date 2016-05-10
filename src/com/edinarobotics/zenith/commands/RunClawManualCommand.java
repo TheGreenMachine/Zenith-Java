@@ -20,7 +20,20 @@ public class RunClawManualCommand extends Command{
 	
 	@Override
 	protected void initialize() {
-		claw.setTarget(1.1 * gamepad.getRightJoystick().getY() * Math.abs(Math.pow(gamepad.getRightJoystick().getY(), 2)));
+		double velocity = 0;
+		
+		if(gamepad.getRightJoystick().getY() > 0.025)
+			velocity = 0.2 + 0.8 * 1.1 * gamepad.getRightJoystick().getY() * Math.abs(Math.pow(gamepad.getRightJoystick().getY(), 1));
+		else if(gamepad.getRightJoystick().getY() < -0.025)
+			velocity = -0.15 + 0.85 * 1.1 * gamepad.getRightJoystick().getY() * Math.abs(Math.pow(gamepad.getRightJoystick().getY(), 1));
+		else
+			velocity = 0;
+		
+//		double velocity = 1.1 * gamepad.getRightJoystick().getY() * Math.abs(Math.pow(gamepad.getRightJoystick().getY(), 1));
+			
+		claw.setClawSpeed(velocity);
+		
+//		System.out.println("Claw Joystick Val: " + gamepad.getRightJoystick().getY());
 	}
 
 	@Override

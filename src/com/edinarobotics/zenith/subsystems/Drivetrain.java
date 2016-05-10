@@ -114,6 +114,11 @@ public class Drivetrain extends Subsystem1816 {
 		this.rotation = rotation*1.0;
 		update();
 	}
+	
+	public void setDrivetrainPower(double leftSide, double rightSide) {
+		this.leftSide.set(-leftSide);
+		this.rightSide.set(rightSide);
+	}
 
 	public void setRotation(double rotation) {
 		this.rotation = rotation;

@@ -1,23 +1,25 @@
 package com.edinarobotics.zenith.commands;
 
 import com.edinarobotics.zenith.Components;
-import com.edinarobotics.zenith.subsystems.Drivetrain;
+import com.edinarobotics.zenith.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ToggleBrakeModeCommand extends Command {
+public class RunCollectorForwardCommand extends Command {
 
-	private Drivetrain drivetrain;
+	private Collector collector;
+	private double velocity;
 	
-	public ToggleBrakeModeCommand() {
-		super("togglebrakemodecommand");
-		drivetrain = Components.getInstance().drivetrain;
-		requires(drivetrain);
+	public RunCollectorForwardCommand(double velocity) {
+		super("runcollectorforwardcommand");
+		collector = Components.getInstance().collector;
+		this.velocity = velocity;
+		requires(collector);
 	}
 	
 	@Override
 	protected void initialize() {
-		drivetrain.setBrakeMode(!drivetrain.getBrakeMode());
+		collector.setForwardVelocity(velocity);
 	}
 
 	@Override

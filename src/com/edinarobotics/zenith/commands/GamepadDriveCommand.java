@@ -25,8 +25,25 @@ public class GamepadDriveCommand extends Command {
 
 	@Override
 	protected void execute() {
-		double verticalStrafe = gamepad.getLeftJoystick().getY();
-		double rotation = gamepad.getRightJoystick().getX();
+		double verticalStrafe, rotation;
+		
+		if(gamepad.getLeftJoystick().getY() > 0.05)
+			verticalStrafe = gamepad.getLeftJoystick().getY() * 0.85 + 0.15;
+		else if(gamepad.getLeftJoystick().getY() < -0.05)
+			verticalStrafe = gamepad.getLeftJoystick().getY() * 0.85 - 0.15;
+		else
+			verticalStrafe = 0;
+		
+		if(gamepad.getRightJoystick().getX() > 0.05)
+			rotation = gamepad.getRightJoystick().getX() * 0.95 + 0.05;
+		else if(gamepad.getRightJoystick().getX() < -0.05)
+			rotation = gamepad.getRightJoystick().getX() * 0.95 - 0.05;
+		else
+			rotation = 0;
+			
+		
+//		double verticalStrafe = gamepad.getLeftJoystick().getY();
+//		double rotation = gamepad.getRightJoystick().getX();
 
 		drivetrain.setDrivetrain(verticalStrafe, rotation);
 	}

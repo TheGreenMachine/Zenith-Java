@@ -8,18 +8,16 @@ import edu.wpi.first.wpilibj.command.Command;
 public class FireShooterCommand extends Command {
 
 	private Shooter shooter;
-	private boolean lowPower;
 	
-	public FireShooterCommand(boolean lowPower) {
+	public FireShooterCommand() {
 		super("fireshootercommand");
 		shooter = Components.getInstance().shooter;
-		this.lowPower = lowPower;
 		requires(shooter);
 	}
 	
 	@Override
 	protected void initialize() {
-		shooter.toggleShooter(lowPower);
+		shooter.toggleShooter();
 	}
 
 	@Override

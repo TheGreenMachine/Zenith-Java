@@ -1,27 +1,30 @@
 package com.edinarobotics.zenith.commands;
 
 import com.edinarobotics.zenith.Components;
-import com.edinarobotics.zenith.subsystems.Claw;
+import com.edinarobotics.zenith.subsystems.Collector;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FlashlightOffCommand extends Command{
+public class RunCollectorSideCommand extends Command {
 
-	private Claw claw;
+	private Collector collector;
+	private double velocity;
 	
-	public FlashlightOffCommand(){
-		super("flashlightoffcommand");
-		this.claw = Components.getInstance().claw;
-		requires(claw);
+	public RunCollectorSideCommand(double velocity) {
+		super("runcollectorsidecommand");
+		collector = Components.getInstance().collector;
+		this.velocity = velocity;
+		requires(collector);
 	}
 	
 	@Override
 	protected void initialize() {
-		claw.turnOffFlashlight();
+		collector.setSideVelocity(velocity);
 	}
 
 	@Override
 	protected void execute() {
+		
 	}
 
 	@Override
@@ -31,10 +34,12 @@ public class FlashlightOffCommand extends Command{
 
 	@Override
 	protected void end() {
+		
 	}
 
 	@Override
 	protected void interrupted() {
+		
 	}
 
 }

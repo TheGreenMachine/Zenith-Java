@@ -14,7 +14,7 @@ public class AutonomousCommand extends CommandGroup {
 			
 			case LOW_BAR_WAIT:
 				
-				addParallel(new RunCollectorCommand(-0.375));
+				addParallel(new RunCollectorForwardCommand(-0.375));
 				
 				addSequential(new RunClawToTargetCommand(ClawTarget.LOW_BAR, Controls.getInstance().gamepad1));
 				
@@ -22,13 +22,13 @@ public class AutonomousCommand extends CommandGroup {
 				
 				addSequential(new DriveXTimeCommand(-.5, 8.0)); 
 				
-				addSequential(new RunCollectorCommand(0.0));
+				addSequential(new RunCollectorForwardCommand(0.0));
 				
 				break;
 				
 			case GENERAL_BREACH:
 				
-				addParallel(new RunCollectorCommand(-0.375));
+				addParallel(new RunCollectorForwardCommand(-0.375));
 				
 				addSequential(new RunClawToTargetCommand(ClawTarget.AUTO, Controls.getInstance().gamepad1));
 				
@@ -36,7 +36,7 @@ public class AutonomousCommand extends CommandGroup {
 				
 				addSequential(new DriveXTimeCommand(0.75, 4.0));
 				
-				addSequential(new RunCollectorCommand(0.0));
+				addSequential(new RunCollectorForwardCommand(0.0));
 				
 				break;
 				
@@ -44,17 +44,27 @@ public class AutonomousCommand extends CommandGroup {
 				
 				addSequential(new ToggleBrakeModeCommand());
 				
-				addParallel(new RunCollectorCommand(-0.375));
+				addSequential(new RotateXDegreesCommand(90));
 				
-				addSequential(new RunClawToTargetCommand(ClawTarget.LOW_BAR, Controls.getInstance().gamepad1));
+				break;
 				
-				addSequential(new DriveXInchesCommand(-220, 0.375));
+			case LOW_BAR_SHOT:
+
+				addSequential(new ToggleBrakeModeCommand());
 				
-				addSequential(new RunClawToTargetCommand(ClawTarget.HIGH_POWER, Controls.getInstance().gamepad1));
+				addParallel(new RunCollectorForwardCommand(-0.375));
 				
-				addSequential(new RotateXDegreesEncoderCommand(115, 0.75));
+				addSequential(new CalibratePotentiometerCommand());
 				
-				addSequential(new DriveXInchesCommand(48, 0.5));
+				addSequential(new WaitCommand(0.25));
+				
+				addSequential(new DriveXInchesCommand(144.0, -0.5));
+				
+				addSequential(new RotateXDegreesCommand(125));
+				
+				addSequential(new VisionAutoAimCommand(true));
+				
+				addSequential(new RunCollectorForwardCommand(0.0));
 				
 				break;
 				
@@ -75,6 +85,7 @@ public class AutonomousCommand extends CommandGroup {
 		GENERAL_BREACH,
 		LOW_BAR_HIGH_GOAL,
 		TEST_AUTO,
+		LOW_BAR_SHOT,
 		NOTHING;
 	}
 	

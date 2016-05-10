@@ -3,6 +3,7 @@ package com.edinarobotics.zenith.commands;
 import com.edinarobotics.utils.gamepad.Gamepad;
 import com.edinarobotics.zenith.Components;
 import com.edinarobotics.zenith.subsystems.Claw;
+import com.edinarobotics.zenith.subsystems.Claw.ClawSpeed;
 import com.edinarobotics.zenith.subsystems.Claw.ClawTarget;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -50,16 +51,16 @@ public class RunClawToTargetCommand extends Command {
 		
 		if ((currentPosition - 1) < targetPosition) {
 			if(Math.abs(currentPosition - targetPosition) < 20)
-				claw.setTalon(-0.4);
+				claw.moveUp(ClawSpeed.FAST);
 			else
-				claw.setTalon(-0.75);
+				claw.moveUp(ClawSpeed.INSANE);
 		} else if ((targetPosition - 1) < currentPosition) {
 			if(Math.abs(currentPosition - targetPosition) < 20)
-				claw.setTalon(0.4);
+				claw.moveDown(ClawSpeed.FAST);
 			else
-				claw.setTalon(0.75); 
+				claw.moveDown(ClawSpeed.INSANE); 
 		} else {
-			claw.setTalon(0.0);
+			claw.stopClaw();
 		}
 		
 		System.out.println("Target position: " + targetPosition);
@@ -73,7 +74,7 @@ public class RunClawToTargetCommand extends Command {
 
 	@Override
 	protected void end() {
-		claw.setTalon(0.0);
+		claw.stopClaw();
 		claw.preset = false;
 	}
 

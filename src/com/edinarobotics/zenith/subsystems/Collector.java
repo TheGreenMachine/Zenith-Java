@@ -6,25 +6,36 @@ import edu.wpi.first.wpilibj.CANTalon;
 
 public class Collector extends Subsystem1816 {
 
-	private CANTalon talon;
-	private double velocity;
+	private CANTalon frontTalon, sideTalon;
+	private double forwardVelocity, sideVelocity;
 	
-	public Collector(int talon) {
-		this.talon = new CANTalon(talon);
+	public Collector(int frontTalon, int sideTalon) {
+		this.frontTalon = new CANTalon(frontTalon);
+		this.sideTalon = new CANTalon(sideTalon);
+
 	}
 	
 	@Override
 	public void update() {
-		talon.set(velocity);
+		frontTalon.set(forwardVelocity);
+		sideTalon.set(sideVelocity);
 	}
 	
-	public void setVelocity(double velocity) {
-		this.velocity = velocity;
+	public void setForwardVelocity(double velocity) {
+		this.forwardVelocity = velocity;
+		update();
+	}
+	public void setSideVelocity(double velocity) {
+		this.sideVelocity = velocity;
 		update();
 	}
 	
-	public double getVelocity() {
-		return velocity;
+	public double getForwardVelocity() {
+		return forwardVelocity;
+	}
+	
+	public double getSideVelocity(){
+		return sideVelocity;
 	}
 
 }

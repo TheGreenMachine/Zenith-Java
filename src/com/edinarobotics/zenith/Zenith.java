@@ -9,9 +9,7 @@ import com.edinarobotics.zenith.commands.RunClawManualCommand;
 import com.edinarobotics.zenith.subsystems.Claw;
 import com.edinarobotics.zenith.subsystems.Collector;
 import com.edinarobotics.zenith.subsystems.Drivetrain;
-import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ImageType;
+import com.edinarobotics.zenith.subsystems.Vision;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -27,6 +25,7 @@ public class Zenith extends IterativeRobot {
 	private Drivetrain drivetrain;
 	private Claw claw;
 	private Collector collector;
+	private Vision vision;
 	
 	private SendableChooser autoChooser;
 	private Preferences preferences;
@@ -40,6 +39,7 @@ public class Zenith extends IterativeRobot {
 		drivetrain = Components.getInstance().drivetrain;
 		claw = Components.getInstance().claw;
 		collector = Components.getInstance().collector;
+		vision = Components.getInstance().vision;
 				
 //		cam1 = CameraServer.getInstance();
 //		cam1.setQuality(20);
@@ -94,6 +94,7 @@ public class Zenith extends IterativeRobot {
 		autoChooser.addObject("Low Bar", AutonomousMode.LOW_BAR_WAIT);
 		autoChooser.addObject("Generic breach", AutonomousMode.GENERAL_BREACH);
 		autoChooser.addDefault("Test Auto", AutonomousMode.TEST_AUTO);
+		autoChooser.addObject("Low Bar Shot", AutonomousMode.LOW_BAR_SHOT);
 		autoChooser.addObject("Do Nothing", AutonomousMode.NOTHING);
 		
 		SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -101,7 +102,7 @@ public class Zenith extends IterativeRobot {
 	
 	public void updateDashboard() {
 		//Claw
-		SmartDashboard.putNumber("Current position: ", (claw.getCurrentPosition() - 641));	
+		SmartDashboard.putNumber("Current position: ", (claw.getCurrentPosition() - claw.getZero()));	
 		SmartDashboard.putBoolean("Claw Brake Active? ", claw.getBrakeSolenoid().get());
 
 		//Drivetrain
@@ -110,10 +111,14 @@ public class Zenith extends IterativeRobot {
 		
 		//Etc
 		SmartDashboard.putNumber("Battery voltage: ", DriverStation.getInstance().getBatteryVoltage());
+		
+		//Vision
+		SmartDashboard.putBoolean("Vision on Target", vision.isOnTarget());
 	}
 
 	public void stop() {
 		drivetrain.setDrivetrain(0.0, 0.0);
-		collector.setVelocity(0.0);
+		collector.setForwardVelocity(0.0);
+		collector.setSideVelocity(0.0);
 	}
 }
