@@ -9,5 +9,5 @@ https://github.com/TheGreenMachine/1816-Utils-Java
 
 Follow the instructions in the file SAMPLElib1816.properties to configure the build.
 
-**The gradle-build-2018 uses gradle to build but uses the old 2017 JAR files.**
+**The gradle-build-2018 branch uses gradle to build but uses the old 2017 JAR files.**
 
